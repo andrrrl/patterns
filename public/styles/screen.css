@@ -1,0 +1,40 @@
+.modal-body {
+    height: auto;
+    background: #fff;
+    padding: 0;
+    margin: 0 auto
+}
+.caneva {
+    border-top: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    margin: 10px auto !important;
+    font-size: 7px
+}
+.celda {
+    width: 15px;
+    height: 15px;
+    border-left: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
+    float: left;
+    cursor: pointer;
+    line-height: 0px
+}
+.celda:hover {
+    background: #999
+}
+.modal-footer {
+    text-align: center
+}
+.opciones-ventana {
+    display: none;
+    width: 130px;
+    float: left;
+    position: absolute;
+    top: 60px;
+    left: -135px;
+    padding: 20px
+}
+.bootstrap-dialog-message {
+    padding: 20px;
+    text-align: center
+}

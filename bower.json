@@ -1,0 +1,23 @@
+{
+  "name": "velours-caneva",
+  "description": "Canevá virtual de Velours",
+  "main": "start.js",
+  "authors": [
+    "Andrrr <andresin@gmail.com>"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "velours",
+    "caneva",
+    "virtual"
+  ],
+  "homepage": "http://velours-andrrr.rhcloud.com",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<link rel="shortcut icon" type="image/png" href="favicon.png">
+	<link rel="stylesheet" href="styles/bootstrap.min.css">
+	<link rel="stylesheet" href="styles/screen.css">
+	<script src="scripts/jquery.min.js"></script>
+	<script src="scripts/bootstrap.min.js"></script>
+	<script src="scripts/bootstrap-dialog.min.js"></script>
+	<script src="scripts/bordados-class.js"></script>
+	<script>
+	$(document).ready(function() {
+
+		/**
+		 * List works
+		 */
+		var bordado = new Bordado();
+		bordado.listar();
+
+
+		$('form').submit(function(e){
+
+			e.preventDefault();
+
+			var bordado_data = {
+				bordado: $('#bordado').val() ||
+					'Bordado ' + Math.floor(Math.random(0, 1000) * 1000),
+				filas: $('[name=filas]').val(),
+				columnas: $('[name=columnas]').val(),
+				punto_base: $('[name=punto]').val(),
+				ancho_punto: $('[name=ancho_punto]').val(),
+				ancho_hilo: $('[name=ancho_hilo]').val(),
+				color_hilo: $('[name=color_hilo]').val(),
+				color_bg: $('[name=color_bg]').val(),
+				color_malla: $('[name=color_malla]').val(),
+				coords: []
+			}
+
+			var bordado_nuevo = new Bordado();
+			bordado_nuevo.grilla({
+				data : bordado_data,
+				mostrar	: true,
+				animar	: { speed: $('input[name=velocidad]').val() || bordado_nuevo.animar.speed }
+			});
+		});
+
+
+	});
+	</script>
+</head>
+
+<body>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4">
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2">
+
+			</div>
+			<div class="col-md-4">
+				<h1>Canevá Virtual #####</h1>
+
+				<form name="cargar-bordado" class="form-inline alert alert-info">
+					<div class="container-fluid">
+
+						<div class="panel panel-primary">
+							<div class="panel-heading">Opciones de carga</div>
+							<div class="panel-body">
+								<div class="form-group">
+									<label for="animar">Animar cada puntada (milisegundos)</label>
+									<div class="input-group">
+										<span class="input-group-addon">
+											<input name="animar" type="checkbox" aria-label="animar">
+										</span>
+										<input name="velocidad" type="text" class="form-control" aria-label="velocidad" placeholder="velocidad" value="50" disabled>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="panel panel-primary">
+							<div class="panel-heading">Bordados</div>
+							<div class="panel-body">
+								<ul id="lista-bordados-borrar" class="list-group"></ul>
+							</div>
+						</div>
+
+					</div>
+				</form>
+			</div>
+			<div class="col-md-4">
+				<h1>Generar Nuevo #####</h1>
+				<form name="generador" class="generador alert alert-info" method="post">
+					<div class="form-group">
+						<label for="bordado">Bordado nuevo:</label>
+						<input class="form-control" type="text" id="bordado-nuevo" name="bordado" value="" placeholder="nombre del bordado">
+						<label for="columnas">Columnas:</label>
+						<input class="form-control" type="text" name="columnas" value="20">
+						<label for="filas">Filas:</label>
+						<input class="form-control" type="text" name="filas" value="20">
+						<label for="punto">Punto:</label>
+						<select class="form-control" name="punto">
+							<option value="cruz">cruz</option>
+							<option value="mas">mas</option>
+							<option value="punto">punto</option>
+							<option value="linea_arriba">linea_arriba</option>
+							<option value="linea_centro">linea_centro</option>
+							<option value="linea_abajo">linea_abajo</option>
+							<option value="linea_izq">linea_izq</option>
+							<option value="linea_centro_vert">linea_centro_vert</option>
+							<option value="linea_der">linea_der</option>
+							<option value="linea_oblicua1">linea_oblicua1</option>
+							<option value="linea_oblicua2">linea_oblicua2</option>
+							<option value="horiz_3">horiz_3</option>
+							<option value="vert_3">vert_3</option>
+							<option value="cuadrado">cuadrado</option>
+							<option value="tres">tres</option>
+						</select>
+						<label for="ancho_hilo">Grosor de hilo:</label>
+						<input class="form-control" type="number" name="ancho_hilo" value="3" min="1" max="20" step="1">
+						<label for="ancho_punto">Ancho de punto:</label>
+						<input class="form-control" type="number" name="ancho_punto" value="20" min="1" max="30" step="1">
+						<label for="color_hilo">Color de hilo:</label>
+						<input class="form-control" type="color" name="color_hilo" value="#e625da">
+						<label for="color_bg">Color de tela:</label>
+						<input class="form-control" type="color" name="color_bg" value="#eaa900">
+						<label for="color_malla">Color de malla:</label>
+						<input class="form-control" type="color" name="color_malla" value="#ffc248">
+					</div>
+
+					<button class="btn btn-info" type="submit" name="generar">Generar</button>
+				</form>
+			</div>
+			<div class="col-md-2">
+
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>
