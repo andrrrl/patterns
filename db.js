@@ -1,14 +1,15 @@
 #!/bin/env node
 
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema,
-    bcrypt = require('bcrypt'),
-    SALT_WORK_FACTOR = 10; //default is 10 anyway...
+    // bcrypt = require('bcrypt'),
+    // SALT_WORK_FACTOR = 10; //default is 10 anyway...
     
     // these values can be whatever you want - we're defaulting to a
     // max of 5 attempts, resulting in a 2 hour lock
-    const MAX_LOGIN_ATTEMPTS = 5,
-    LOCK_TIME = 2 * 60 * 60 * 1000;
+    // const MAX_LOGIN_ATTEMPTS = 5,
+    // LOCK_TIME = 2 * 60 * 60 * 1000;
+
+var mongoose = require('mongoose'),
+    Schema = mongoose.Schema;
 
 var mongo_user = process.env.OPENSHIFT_MONGODB_DB_USERNAME || 'colorina';
 var mongo_coll = process.env.OPENSHIFT_APP_NAME || 'portfolio';
