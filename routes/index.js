@@ -72,7 +72,7 @@ router.param('id', function(req, res, next, id) {
 
     // check if the Bordado with that id exists
     // TODO: do some validations
-    let modified = id.toString();
+    var modified = id.toString();
 
     // save id to the request
     req.id = modified;
