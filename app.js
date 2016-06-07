@@ -67,7 +67,7 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
     
-    let url = req.url;
+    var url = req.url;
 
     // IMPORTANT: Your application HAS to respond to GET /health with status 200
     //            for OpenShift health monitoring
