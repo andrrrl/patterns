@@ -50,7 +50,7 @@ router.route('/bordados')
 // POST (insert)
 .post(function(req, res, next) {
 
-    let bordado = new Caneva(req.body);
+    var bordado = new Caneva(req.body);
 
     bordado.save(function(err, result) {
 
