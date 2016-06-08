@@ -5,7 +5,7 @@
   "private": true,
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node --use_strict server.js"
   },
   "author": "Andrrr <andresin@gmail.com>",
   "license": "MIT",
@@ -20,6 +20,7 @@
   ],
   "dependencies": {
     "body-parser": "^1.15.1",
+    "bower": "^1.7.9",
     "cookie-parser": "^1.4.3",
     "ejs": "^2.4.2",
     "express": "^4.13.4",
