@@ -34,16 +34,19 @@ router.route('/bordados')
 // GET ALL
 .get(function(req, res, next) {
 
-    if (err) {
-        console.log(err);
-    } else {
-        Caneva.find({}).sort({
-            'creado_el': 1
-        }).exec(function(err, db_caneva) {
+
+    Caneva.find({}).sort({
+        'creado_el': 1
+    }).exec(function(err, db_caneva) {
+
+        if (err) {
+            console.log(err);
+        } else {
+
             res.json(db_caneva);
             res.end();
-        });
-    }
+        }
+    });
 
 })
 
@@ -85,58 +88,65 @@ router.param('id', function(req, res, next, id) {
 router.route('/bordados/:id')
     .get(function(req, res, next) {
 
-        if (err) {
-            console.log(err);
-        } else {
+        Caneva.findOne({
+            '_id': req.params.id
+        }).exec(function(err, db_bordado) {
 
-            Caneva.findOne({
-                '_id': req.params.id
-            }).exec(function(err, db_bordado) {
+            if (err) {
+                console.log(err);
+            } else {
+
                 res.json(db_bordado);
                 res.end();
-            });
-        }
+            }
+        });
 
     })
 
 // PUT (update)
 .put(function(req, res, next) {
 
-    if (err) {
-        console.log(err);
-    } else {
-        Caneva.update({
-            '_id': req.params.id
-        }, req.body).exec(function(err, result) {
+    Caneva.update({
+        '_id': req.params.id
+    }, req.body).exec(function(err, result) {
+
+        if (err) {
+            console.log(err);
+        } else {
+
             result = {
                 result: result.ok == 1 ? 'ok' : 'error'
             };
             res.json(result);
             res.end();
-        });
-    }
+        }
+    });
 
 })
 
 // DELETE
 .delete(function(req, res, next) {
 
-    if (err) {
-        console.log(err);
-    } else {
-        Caneva.find({
-            '_id': req.params.id
-        }).exec(function(err, bordado) {
+    Caneva.find({
+        '_id': req.params.id
+    }).exec(function(err, bordado) {
+        if (err) {
+            console.log(err);
+        } else {
             Caneva.remove({
                 '_id': req.params.id
             }).exec(function(err, result) {
-                res.json({
-                    result: 'ok'
-                });
-                res.end();
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.json({
+                        result: 'ok'
+                    });
+                    res.end();
+                }
             });
-        });
-    }
+        }
+    });
 
 });
 

@@ -12,7 +12,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var mongo_user = process.env.OPENSHIFT_MONGODB_DB_USERNAME || 'colorina';
-var mongo_coll = process.env.OPENSHIFT_APP_NAME || 'portfolio';
+var mongo_coll = process.env.OPENSHIFT_APP_NAME || 'velours';
 
 if (mongo_user == 'colorina') {
     var MongoDB = mongoose.connect('mongodb://localhost/velours').connection;
