@@ -19,7 +19,6 @@
     "virtual"
   ],
   "dependencies": {
-    "bcrypt": "^0.8.6",
     "body-parser": "^1.15.1",
     "cookie-parser": "^1.4.3",
     "ejs": "^2.4.2",
@@ -30,7 +29,7 @@
     "serve-favicon": "^2.3.0"
   },
   "devDependencies": {
-    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
     "grunt-contrib-compass": "^1.1.1",
     "grunt-contrib-sass": "^1.0.0",
     "grunt-contrib-uglify": "^1.0.1",
