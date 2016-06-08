@@ -14,7 +14,7 @@ var app = express();
 
 // static content setup
 app.use('/styles',  express.static(__dirname + '/bower_components/bootstrap/dist/css')); // redirect CSS bootstrap
-app.use('/fonts',  express.static(__dirname + '/bower_components/bootstrap/dist/fonts')); // redirect CSS bootstrap
+app.use('/fonts',   express.static(__dirname + '/bower_components/bootstrap/dist/fonts')); // redirect CSS bootstrap
 app.use('/styles',  express.static(__dirname + '/bower_components/font-awesome/css')); // redirect CSS bootstrap
 app.use('/scripts', express.static(__dirname + '/bower_components/bootstrap/dist/js')); // redirect bootstrap JS
 app.use('/scripts', express.static(__dirname + '/bower_components/bootstrap3-dialog/dist/js')); // redirect bootstrap-dialog JS
