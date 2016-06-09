@@ -35,7 +35,9 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({
     extended: true // support encoded bodies
 }));
-app.use(cookieParser());
+app.use(cookieParser({
+	limit: '16mb'
+}));
 // app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 
