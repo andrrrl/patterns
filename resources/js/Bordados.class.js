@@ -140,7 +140,7 @@ Bordado.prototype = {
 			$(btn_save).html(btn_states.saving);
 
 			$.ajax({
-				url: this.ajax_script + this.save_action + (Bordado.data.id && this.type == 'php' ? '&id=' + Bordado.data.id : Bordado.data.id),
+				url: this.ajax_script + this.save_action + (Bordado.data.id && this.type == 'php' ? '&id=' + Bordado.data.id : (Bordado.data.id || '' )),
 				method: ( Bordado.data.id ? 'PUT' : 'POST' ),
 				data: {
 					_method: ( Bordado.data.id ? 'PUT' : 'POST' ),
@@ -272,7 +272,7 @@ Bordado.prototype = {
 											Bordado.eliminar(delete_id);
 										} else {
 											console.info( 'Acción cancelada: No se eliminó el bordado: "' + bordado + '"' );
-											return false;
+											return;
 										}
 									}
 								});
