@@ -1,7 +1,7 @@
 {
   "name": "velours-caneva",
   "description": "Canevá virtual de Velours",
-  "main": "start.js",
+  "main": "server.js",
   "authors": [
     "Andrrr <andresin@gmail.com>"
   ],
