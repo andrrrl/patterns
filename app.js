@@ -33,15 +33,9 @@ app.set('view options', {
 app.use(logger('dev'));
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({
-	limit: '16mb',
     extended: true // support encoded bodies
 }));
-app.use(express.json({
-	limit: '16mb'
-}));
-app.use(cookieParser({
-	limit: '16mb'
-}));
+app.use(cookieParser());
 // app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 
