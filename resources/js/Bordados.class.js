@@ -141,8 +141,11 @@ Bordado.prototype = {
 
 			$.ajax({
 				url: this.ajax_script + this.save_action + (Bordado.data.id && this.type == 'php' ? '&id=' + Bordado.data.id : Bordado.data.id),
-				method: 'POST',
-				data: this.data,
+				method: ( Bordado.data.id ? 'PUT' : 'POST' ),
+				data: {
+					_method: ( Bordado.data.id ? 'PUT' : 'POST' ),
+					bordado: this.data
+				},
 				dataType: 'JSON',
 				success: function(res) {
 					switch (res.result) {
