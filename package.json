@@ -3,9 +3,9 @@
   "version": "1.0.1",
   "description": "Canevá virtual de Velours",
   "private": true,
-  "main": "server.js",
+  "main": "start.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node start.js"
   },
   "author": "Andrrr <andresin@gmail.com>",
   "license": "MIT",
