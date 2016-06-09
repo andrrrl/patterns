@@ -108,7 +108,7 @@ router.route('/bordados/:id')
 
     Caneva.update({
         '_id': req.params.id
-    }, req.body).exec(function(err, result) {
+    }, req.body.bordado).exec(function(err, result) {
 
         if (err) {
             console.log(err);
