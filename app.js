@@ -40,6 +40,12 @@ app.use(cookieParser());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// override with different headers; last one takes precedence
+
+app.use(methodOverride('X-HTTP-Method'))          // Microsoft
+app.use(methodOverride('X-HTTP-Method-Override')) // Google/GData
+app.use(methodOverride('X-Method-Override'))      // IBM
+
 // routes...
 app.use('/', routes);
 //app.use('/users', users);
