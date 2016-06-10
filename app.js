@@ -35,13 +35,13 @@ app.set('view options', {
 
 // uncomment after placing your favicon in /public/images/
 //app.use(favicon(__dirname + '/public/images/favicon.ico'));
-app.use(morgan('combined'));
+app.use(morgan('dev'));
 // app.use(logger('dev'));
 app.use(bodyParser.json()); // support json encoded bodies
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({
     extended: true // support encoded bodies
 }));
-app.use(cookieParser());
 app.use(methodOverride('_method'));
 
 // override with different headers; last one takes precedence
