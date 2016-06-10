@@ -31,41 +31,41 @@ router.get('/', function(req, res, next) {
 // GET all
 router.route('/bordados')
 
-// GET ALL
-.get(function(req, res, next) {
+	// GET ALL
+	.get(function(req, res, next) {
 
 
-    Caneva.find({}).sort({
-        'creado_el': 1
-    }).exec(function(err, db_caneva) {
+	    Caneva.find({}).sort({
+	        'creado_el': 1
+	    }).exec(function(err, db_caneva) {
 
-        if (err) {
-            console.log(err);
-        } else {
+	        if (err) {
+	            console.log(err);
+	        } else {
 
-            res.json(db_caneva);
-            res.end();
-        }
-    });
+	            res.json(db_caneva);
+	            res.end();
+	        }
+	    });
 
-})
+	})
 
-// POST (insert)
-.post(function(req, res, next) {
+	// POST (insert)
+	.post(function(req, res, next) {
 
-    var bordado = new Caneva(req.body.bordado);
+	    var bordado = new Caneva(req.body.bordado);
 
-    bordado.save(function(err, result) {
+	    bordado.save(function(err, result) {
 
-        if (err) {
-            console.log(err);
-        } else {
-            res.json({
-                result: 'ok'
-            });
-            res.end();
-        }
-    });
+	        if (err) {
+	            console.log(err);
+	        } else {
+	            res.json({
+	                result: 'ok'
+	            });
+	            res.end();
+	        }
+	    });
 
 });
 
@@ -103,24 +103,22 @@ router.route('/bordados/:id')
 
     })
 
-// PUT (update)
-.put(function(req, res, next) {
+	// PUT (update)
+	.put(function(req, res, next) {
+		
+	    Caneva.update({ _id: req.body._id }, req.body).exec(function(err, result) {
 
-    Caneva.update({
-        '_id': req.params.id
-    }, req.body.bordado).exec(function(err, result) {
-
-        if (err) {
-            console.log(err);
-        } else {
+	        if (err) {
+	            console.log(err);
+	        } else {
 
             result = {
                 result: result.ok == 1 ? 'ok' : 'error'
             };
-            res.json(result);
-            res.end();
-        }
-    });
+	            res.json(result);
+	            res.end();
+	        }
+	    });
 
 })
 

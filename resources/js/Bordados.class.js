@@ -128,7 +128,7 @@ Bordado.prototype = {
 
 		var Bordado = this; // Necesario para usarlo dentro de ajax.success()
 
-		if (this.data) {
+		if (Bordado.data) {
 
 			var btn_save = this.btn_save,
 				btn_states = {
@@ -138,14 +138,13 @@ Bordado.prototype = {
 				};
 
 			$(btn_save).html(btn_states.saving);
-
+			
+			Bordado._method = Bordado.data.id  ? 'PUT' : 'POST';
+			
 			$.ajax({
-				url: this.ajax_script + this.save_action + (Bordado.data.id && this.type == 'php' ? '&id=' + Bordado.data.id : (Bordado.data.id ? Bordado.data.id : '' )),
-				method: ( Bordado.data.id ? 'PUT' : 'POST' ),
-				data: {
-					_method: ( Bordado.data.id ? 'PUT' : 'POST' ),
-					bordado: this.data
-				},
+				url: this.ajax_script + this.save_action + (Bordado.data.id || 0),
+				method: Bordado._method,
+				data: this.data,
 				dataType: 'JSON',
 				success: function(res) {
 					switch (res.result) {
