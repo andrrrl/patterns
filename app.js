@@ -43,6 +43,7 @@ app.use(bodyParser.urlencoded({
     extended: true // support encoded bodies
 }));
 app.use(methodOverride('_method'));
+app.use(methodOverride('X-HTTP-Method-Override'));
 
 // override with different headers; last one takes precedence
 
