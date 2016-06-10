@@ -5,6 +5,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
 
 var routes = require('./routes/index');
 //var users = require('./routes/users');
@@ -12,7 +13,7 @@ var routes = require('./routes/index');
 // Start express
 var app = express();
 
-// static content setup
+// static content setup, this is just GREAT
 app.use('/styles',  express.static(__dirname + '/bower_components/bootstrap/dist/css')); // redirect CSS bootstrap
 app.use('/fonts',   express.static(__dirname + '/bower_components/bootstrap/dist/fonts')); // redirect CSS bootstrap
 app.use('/styles',  express.static(__dirname + '/bower_components/font-awesome/css')); // redirect CSS bootstrap
@@ -28,17 +29,18 @@ app.set('view options', {
 });
 
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
+// uncomment after placing your favicon in /public/images/
+//app.use(favicon(__dirname + '/public/images/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({
     extended: true // support encoded bodies
 }));
 app.use(cookieParser());
-// app.use(express.methodOverride());
+app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// routes...
 app.use('/', routes);
 //app.use('/users', users);
 

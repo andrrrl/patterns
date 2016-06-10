@@ -1,4 +1,5 @@
-// Package Bordados
+// Package Bordados 0.5
+// By Andrrr [andresin@gmail.com]
 
 // ////////////////////////////////////////////////////
 // Class Bordado                            		 //
@@ -76,6 +77,7 @@ Bordado.prototype = {
 	constructor: Bordado,
 
 	// Cargar desde Base de Datos (SQLite|MySQL) ==> ver php/bordado.php
+	// Cargar desde MongoDB ==> ver db.js, routes/index.js
 	cargar: function(bordado_id, opciones) {
 
 		opciones = opciones || {};
@@ -152,6 +154,9 @@ Bordado.prototype = {
 							$(btn_save).html(btn_states.saved);
 							
 							if ( $('body').find('[data-id=' + (Bordado.data.id || res._id) + ']').length === 0 ) {
+                                
+                                $('#lista-bordados-borrar').html('');
+                                
 								$('#lista-bordados-borrar').prepend(
 									'<li class="list-group-item"><a data-id="' + res._id + '" ' +
 										'data-toggle="tooltip" ' +
