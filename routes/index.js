@@ -39,7 +39,7 @@ router.route('/bordados')
 	    }).exec(function(err, bordados_list) {
 
 	        if (err) {
-	            // console.log(err);
+	            console.log(err);
 	        } else {
 
 	            res.json(bordados_list);
@@ -53,8 +53,6 @@ router.route('/bordados')
 	.post(function(req, res, next) {
 
 	    var bordado = new Caneva(req.body);
-
-		console.log(bordado);
 
 	    bordado.save(function(err, result) {
 
