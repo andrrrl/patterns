@@ -145,7 +145,10 @@ Bordado.prototype = {
 			
 			$.ajax({
 				url: this.ajax_script + this.save_action + (Bordado.data.id || '') + '?_method=' + Bordado._method,
-				method: 'post',
+				method: 'POST',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('X-HTTP-Method-Override', 'PUT');
+                },
 				data: this.data,
 				dataType: 'JSON',
 				success: function(res) {
