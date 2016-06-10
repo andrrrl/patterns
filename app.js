@@ -2,10 +2,11 @@ var express = require('express');
 var db = require('mongoose');
 var path = require('path');
 var favicon = require('serve-favicon');
-var logger = require('morgan');
+// var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
+var morgan = require('morgan');
 
 var routes = require('./routes/index');
 //var users = require('./routes/users');
@@ -34,7 +35,8 @@ app.set('view options', {
 
 // uncomment after placing your favicon in /public/images/
 //app.use(favicon(__dirname + '/public/images/favicon.ico'));
-app.use(logger('dev'));
+app.use(morgan('combined'));
+// app.use(logger('dev'));
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({
     extended: true // support encoded bodies
