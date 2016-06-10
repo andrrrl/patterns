@@ -34,16 +34,15 @@ router.route('/bordados')
 	// GET ALL
 	.get(function(req, res, next) {
 
-
 	    Caneva.find({}).sort({
 	        'creado_el': 1
-	    }).exec(function(err, db_caneva) {
+	    }).exec(function(err, bordados_list) {
 
 	        if (err) {
-	            console.log(err);
+	            // console.log(err);
 	        } else {
 
-	            res.json(db_caneva);
+	            res.json(bordados_list);
 	            res.end();
 	        }
 	    });
@@ -53,7 +52,9 @@ router.route('/bordados')
 	// POST (insert)
 	.post(function(req, res, next) {
 
-	    var bordado = new Caneva(req.body.bordado);
+	    var bordado = new Caneva(req.body);
+
+		console.log(bordado);
 
 	    bordado.save(function(err, result) {
 
@@ -61,7 +62,9 @@ router.route('/bordados')
 	            console.log(err);
 	        } else {
 	            res.json({
-	                result: 'ok'
+	                result: 'ok',
+					_id: result._id,
+					bordado: result.bordado
 	            });
 	            res.end();
 	        }
@@ -86,6 +89,7 @@ router.param('id', function(req, res, next, id) {
 
 // GET (load)
 router.route('/bordados/:id')
+
     .get(function(req, res, next) {
 
         Caneva.findOne({

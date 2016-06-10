@@ -132,9 +132,9 @@ Bordado.prototype = {
 
 			var btn_save = this.btn_save,
 				btn_states = {
-					'save': $(this.btn_save).data('save-text') || 'Guardar',
-					'saving': $(this.btn_save).data('saving-text') || 'Guardando...',
-					'saved': $(this.btn_save).data('saved-text') || 'Guardado'
+					'save': $(this.btn_save).data('save-text') 		|| 'Guardar',
+					'saving': $(this.btn_save).data('saving-text') 	|| 'Guardando...',
+					'saved': $(this.btn_save).data('saved-text') 	|| 'Guardado'
 				};
 
 			$(btn_save).html(btn_states.saving);
@@ -142,7 +142,7 @@ Bordado.prototype = {
 			Bordado._method = Bordado.data.id  ? 'PUT' : 'POST';
 			
 			$.ajax({
-				url: this.ajax_script + this.save_action + (Bordado.data.id || 0),
+				url: this.ajax_script + this.save_action + (Bordado.data.id || ''),
 				method: Bordado._method,
 				data: this.data,
 				dataType: 'JSON',
@@ -150,6 +150,60 @@ Bordado.prototype = {
 					switch (res.result) {
 						case 'ok':
 							$(btn_save).html(btn_states.saved);
+							
+							if ( $('body').find('[data-id=' + (Bordado.data.id || res._id) + ']').length === 0 ) {
+								$('#lista-bordados-borrar').prepend(
+									'<li class="list-group-item"><a data-id="' + res._id + '" ' +
+										'data-toggle="tooltip" ' +
+										'data-title="Abrir" ' +
+										'href="#' + res._id+ '">' + res.bordado + '</a>' +
+											'<span class="pull-right">' +
+												'<a class="delete" href="#delete" ' +
+												'data-delete-id="' + res._id + '" ' +
+												'data-bordado="' + res.bordado + '" ' +
+												'data-title="Eliminar"' +
+												'class="delete-bordado"><i class="glyphicon glyphicon-remove"></i></a>' +
+											'</span>' +
+										'</li>');
+										$('#lista-bordados-borrar').find('li a').on('click', function(e) {
+											e.preventDefault();
+				                            var id 		= $(this).data('id');
+				                            console.log('Bordado.data.id: ' + id);
+
+											if ( $(this).hasClass('delete') ){
+												
+				                                var delete_id = $(this).data('delete-id');
+												var bordado   = $(this).data('bordado');
+				                                
+												// (!) Prompt to delete Bordado
+												console.info( 'Se está por eliminar el bordado: "' + bordado + '" con ID "' + delete_id + '"' );
+												BootstrapDialog.confirm({
+													title: 'Eliminar Bordado: "' + bordado + '"',
+													message: '¿Confirmar?',
+													type: BootstrapDialog.TYPE_WARNING,
+													closable: true,
+													draggable: true,
+													btnCancelLabel: 'Cancelar',
+													btnOKLabel: 'Eliminar',
+													btnOKClass: 'btn-danger',
+													callback: function(resultado) {
+														if (resultado) {
+															Bordado.eliminar(delete_id);
+														} else {
+															console.info( 'Acción cancelada: No se eliminó el bordado: "' + bordado + '"' );
+															return;
+														}
+													}
+												});
+											} else {
+												console.info( 'Se va a cargar el bordado con _id: ' + Bordado.data.id );
+												e.preventDefault();
+				                                Bordado.data.id = id;
+												Bordado.cargar(id);
+											}
+										});
+							}
+							
 							break;
 						case 'error':
 							$(btn_save).html(btn_states.save);
@@ -189,6 +243,14 @@ Bordado.prototype = {
 					case 'ok':
 						$('body').find('[data-delete-id=' + id + ']').parentsUntil('ul').delay(200).remove();
 						console.info( '$.ajax: Se eliminó el bordado' );
+						
+						if ( $('body').find('[data-delete-id]').length === 0 ) {
+							$('#lista-bordados-borrar').html('<li class="list-group-item">No hay bordados guardados</li>');
+							$('button[name=cargar]').hide();
+
+							console.info('[INFO] $.ajax: No hay bordados para listar.');
+						}
+						
 						return true;
 					case 'error':
 						console.info('$.ajax: No se pudo eliminar el bordado...');
@@ -252,6 +314,7 @@ Bordado.prototype = {
                             console.log('Bordado.data.id: ' + id);
 
 							if ( $(this).hasClass('delete') ){
+								
                                 var delete_id = $(this).data('delete-id');
 								var bordado   = $(this).data('bordado');
                                 
@@ -276,9 +339,8 @@ Bordado.prototype = {
 									}
 								});
 							} else {
-
                                 
-                                
+								console.info( 'Se va a cargar el bordado con _id: ' + Bordado.data.id );
 								e.preventDefault();
                                 Bordado.data.id = id;
 								Bordado.cargar(id);
