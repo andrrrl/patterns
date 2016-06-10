@@ -31,42 +31,64 @@ router.get('/', function(req, res, next) {
 // GET all
 router.route('/bordados')
 
-	// GET ALL
-	.get(function(req, res, next) {
+// GET ALL
+.get(function(req, res, next) {
 
-	    Caneva.find({}).sort({
-	        '_id': -1
-	    }).exec(function(err, bordados_list) {
+    Caneva.find({}).sort({
+        '_id': -1
+    }).exec(function(err, bordados_list) {
 
-	        if (err) {
-	            console.log(err);
-	        } else {
+        if (err) {
+            console.log(err);
+        } else {
 
-	            res.json(bordados_list);
-	            res.end();
-	        }
-	    });
+            res.json(bordados_list);
+            res.end();
+        }
+    });
 
-	})
+})
 
-	// POST (insert)
-	.post(function(req, res, next) {
+// POST (insert)
+.post(function(req, res, next) {
 
-	    var bordado = new Caneva(req.body);
+    var bordado = new Caneva(req.body);
 
-	    bordado.save(function(err, result) {
+    if (req.body._id) {
+        
+        Caneva.update({
+            _id: req.body._id
+        }, req.body).exec(function(err, result) {
 
-	        if (err) {
-	            console.log(err);
-	        } else {
-	            res.json({
-	                result: 'ok',
-					_id: result._id,
-					bordado: result.bordado
-	            });
-	            res.end();
-	        }
-	    });
+            if (err) {
+                console.log(err);
+            } else {
+
+                result = {
+                    result: result.ok == 1 ? 'ok' : 'error'
+                };
+                res.json(result);
+                res.end();
+            }
+        });
+
+    } else {
+
+        bordado.save(function(err, result) {
+
+            if (err) {
+                console.log(err);
+            } else {
+                res.json({
+                    result: 'ok',
+                    _id: result._id,
+                    bordado: result.bordado
+                });
+                res.end();
+            }
+        });
+
+    }
 
 });
 
@@ -88,41 +110,41 @@ router.param('id', function(req, res, next, id) {
 // GET (load)
 router.route('/bordados/:id')
 
-    .get(function(req, res, next) {
+.get(function(req, res, next) {
 
-        Caneva.findOne({
-            '_id': req.params.id
-        }).exec(function(err, db_bordado) {
+    Caneva.findOne({
+        '_id': req.params.id
+    }).exec(function(err, db_bordado) {
 
-            if (err) {
-                console.log(err);
-            } else {
+        if (err) {
+            console.log(err);
+        } else {
 
-                res.json(db_bordado);
-                res.end();
-            }
-        });
-
-    })
-
-	// PUT (update)
-	.put(function(req, res, next) {
-		
-	    Caneva.update({ _id: req.body._id }, req.body).exec(function(err, result) {
-
-	        if (err) {
-	            console.log(err);
-	        } else {
-
-            result = {
-                result: result.ok == 1 ? 'ok' : 'error'
-            };
-	            res.json(result);
-	            res.end();
-	        }
-	    });
+            res.json(db_bordado);
+            res.end();
+        }
+    });
 
 })
+
+// PUT (update)
+// 	.put(function(req, res, next) {
+// 		
+// 	    Caneva.update({ _id: req.body._id }, req.body).exec(function(err, result) {
+// 
+// 	        if (err) {
+// 	            console.log(err);
+// 	        } else {
+// 
+//             result = {
+//                 result: result.ok == 1 ? 'ok' : 'error'
+//             };
+// 	            res.json(result);
+// 	            res.end();
+// 	        }
+// 	    });
+// 
+// })
 
 // DELETE
 .delete(function(req, res, next) {

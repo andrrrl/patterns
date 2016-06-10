@@ -21,10 +21,10 @@ function Bordado(nombre_bordado, contenedor) {
         break;
         case 'nodejs':
             this.ajax_script    = '/';
-            this.load_action    = './bordados/';
-            this.save_action    = './bordados/';
-            this.delete_action  = './bordados/';
-            this.list_action    = './bordados/';
+            this.load_action    = 'bordados/';
+            this.save_action    = 'bordados/';
+            this.delete_action  = 'bordados/';
+            this.list_action    = 'bordados/';
         break;
             
     }
@@ -144,12 +144,12 @@ Bordado.prototype = {
 			Bordado._method = Bordado.data.id  ? 'PUT' : 'POST';
 			
 			$.ajax({
-				url: this.ajax_script + this.save_action + (Bordado.data.id || '') + '?_method=' + Bordado._method,
+				url: this.ajax_script + this.save_action,
 				method: 'POST',
-                beforeSend: function (xhr) {
-                    if ( Bordado._method == 'PUT' )
-                        xhr.setRequestHeader('X-HTTP-Method-Override', 'PUT');
-                },
+                // beforeSend: function (xhr) {
+                //     if ( Bordado._method == 'PUT' )
+                //         xhr.setRequestHeader('X-HTTP-Method-Override', 'PUT');
+                // },
                 cache: false,
 				data: this.data,
 				dataType: 'JSON',
