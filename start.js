@@ -18,7 +18,7 @@ cluster.on('disconnect', function(worker) {
 });
 
 if (cluster.isMaster) {
-    var workerCount = process.env.NODE_CLUSTER_WORKERS || 4;
+    var workerCount = process.env.NODE_CLUSTER_WORKERS || 1;
     console.log(`Starting ${workerCount} workers...`);
     for (var i = 0; i < workerCount; i++) {
         cluster.fork();
