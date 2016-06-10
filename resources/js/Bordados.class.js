@@ -149,6 +149,7 @@ Bordado.prototype = {
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader('X-HTTP-Method-Override', 'PUT');
                 },
+                cache: false,
 				data: this.data,
 				dataType: 'JSON',
 				success: function(res) {
