@@ -21,10 +21,10 @@ function Bordado(nombre_bordado, contenedor) {
         break;
         case 'nodejs':
             this.ajax_script    = '/';
-            this.load_action    = '/bordados/';
-            this.save_action    = '/bordados/';
-            this.delete_action  = '/bordados/';
-            this.list_action    = '/bordados/';
+            this.load_action    = './bordados/';
+            this.save_action    = './bordados/';
+            this.delete_action  = './bordados/';
+            this.list_action    = './bordados/';
         break;
             
     }
