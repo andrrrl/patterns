@@ -56,18 +56,17 @@ router.route('/bordados')
 
     if (req.body._id) {
         
-        Caneva.update({
+        bordado.update({
             _id: req.body._id
         }, req.body).exec(function(err, result) {
 
             if (err) {
-                console.log(err);
+                debug(err);
             } else {
 
-                result = {
+                res.json({
                     result: result.ok == 1 ? 'ok' : 'error'
-                };
-                res.json(result);
+                });
                 res.end();
             }
         });
@@ -77,7 +76,7 @@ router.route('/bordados')
         bordado.save(function(err, result) {
 
             if (err) {
-                console.log(err);
+                debug(err);
             } else {
                 res.json({
                     result: 'ok',
