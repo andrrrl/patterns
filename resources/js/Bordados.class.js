@@ -147,7 +147,8 @@ Bordado.prototype = {
 				url: this.ajax_script + this.save_action + (Bordado.data.id || '') + '?_method=' + Bordado._method,
 				method: 'POST',
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader('X-HTTP-Method-Override', 'PUT');
+                    if ( Bordado._method == 'PUT' )
+                        xhr.setRequestHeader('X-HTTP-Method-Override', 'PUT');
                 },
                 cache: false,
 				data: this.data,
@@ -158,8 +159,9 @@ Bordado.prototype = {
 							$(btn_save).html(btn_states.saved);
 							
 							if ( $('body').find('[data-id=' + (Bordado.data.id || res._id) + ']').length === 0 ) {
-                                
-                                $('#lista-bordados-borrar').html('');
+
+                                if ( $('#lista-bordados-borrar ul li:first-child').text() == 'No hay bordados guardados' )
+                                    $('#lista-bordados-borrar').html('');
                                 
 								$('#lista-bordados-borrar').prepend(
 									'<li class="list-group-item"><a data-id="' + res._id + '" ' +

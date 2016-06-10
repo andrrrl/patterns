@@ -35,7 +35,7 @@ router.route('/bordados')
 	.get(function(req, res, next) {
 
 	    Caneva.find({}).sort({
-	        'creado_el': 1
+	        '_id': -1
 	    }).exec(function(err, bordados_list) {
 
 	        if (err) {
