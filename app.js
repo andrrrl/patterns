@@ -21,6 +21,9 @@ app.use('/scripts', express.static(__dirname + '/bower_components/bootstrap/dist
 app.use('/scripts', express.static(__dirname + '/bower_components/bootstrap3-dialog/dist/js')); // redirect bootstrap-dialog JS
 app.use('/scripts', express.static(__dirname + '/bower_components/jquery/dist')); // redirect JS jQuery
 
+// public
+app.use(express.static(path.join(__dirname, 'public')));
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -28,7 +31,6 @@ app.set('view options', {
     pretty: true
 });
 
-app.use(express.static(path.join(__dirname, 'public')));
 
 // uncomment after placing your favicon in /public/images/
 //app.use(favicon(__dirname + '/public/images/favicon.ico'));
@@ -38,20 +40,12 @@ app.use(bodyParser.urlencoded({
     extended: true // support encoded bodies
 }));
 app.use(cookieParser());
-
-app.use(methodOverride('X-HTTP-Method-Override')); // Google/GData
-app.use(methodOverride(function(req, res){
-  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
-    // look in urlencoded POST bodies and delete it
-    var method = req.body._method
-    delete req.body._method
-    return method
-  }
-}));
+app.use(methodOverride('_method'));
 
 // override with different headers; last one takes precedence
 
 // app.use(methodOverride('X-HTTP-Method'))          // Microsoft
+// app.use(methodOverride('X-HTTP-Method-Override')) // Google/GData
 // app.use(methodOverride('X-Method-Override'))      // IBM
 
 // routes...
