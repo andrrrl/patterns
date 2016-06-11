@@ -56,6 +56,8 @@ router.route('/bordados')
 
     if (req.body._id) {
         
+		console.log('update: ' + req.body);
+		
         bordado.update({
             _id: req.body._id
         }, req.body).exec(function(err, result) {
@@ -72,6 +74,7 @@ router.route('/bordados')
         });
 
     } else {
+		console.log('save: ' + req.body);
 
         bordado.save(function(err, result) {
 
