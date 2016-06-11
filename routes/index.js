@@ -61,7 +61,7 @@ router.route('/bordados')
         }, req.body).exec(function(err, result) {
 
             if (err) {
-                debug(err);
+				console.log(err);
             } else {
 
                 res.json({
@@ -76,7 +76,7 @@ router.route('/bordados')
         bordado.save(function(err, result) {
 
             if (err) {
-                debug(err);
+                console.log(err);
             } else {
                 res.json({
                     result: 'ok',
