@@ -52,14 +52,18 @@ router.route('/bordados')
 // POST (insert)
 .post(function(req, res, next) {
 
+	var _id = req.body._id || null;
+	req.body.splice(req.body.indexOf('_id'), 1);
     var bordado = new Caneva(req.body);
 
     if (req.body._id) {
+
+		req.params._id = _id;
         
 		console.log('update: ' + req.body);
 		
         bordado.update({
-            _id: req.body._id
+            _id: req.params._id
         }, req.body).exec(function(err, result) {
 
             if (err) {
