@@ -7,8 +7,6 @@ var schemas = require('../db');
 var Config = schemas.Config;
 var Caneva = schemas.Caneva;
 
-var mongoose = require('mongoose');
-
 // GET and render homepage
 router.get('/', function(req, res, next) {
 
@@ -52,49 +50,21 @@ router.route('/bordados')
 // POST (insert)
 .post(function(req, res, next) {
 
-	var _id = req.body._id || null;
-	req.body.splice(req.body.indexOf('_id'), 1);
     var bordado = new Caneva(req.body);
 
-    if (req.body._id) {
+    bordado.save(function(err, result) {
 
-		req.params._id = _id;
-        
-		console.log('update: ' + req.body);
-		
-        bordado.update({
-            _id: req.params._id
-        }, req.body).exec(function(err, result) {
-
-            if (err) {
-				console.log(err);
-            } else {
-
-                res.json({
-                    result: result.ok == 1 ? 'ok' : 'error'
-                });
-                res.end();
-            }
-        });
-
-    } else {
-		console.log('save: ' + req.body);
-
-        bordado.save(function(err, result) {
-
-            if (err) {
-                console.log(err);
-            } else {
-                res.json({
-                    result: 'ok',
-                    _id: result._id,
-                    bordado: result.bordado
-                });
-                res.end();
-            }
-        });
-
-    }
+        if (err) {
+            console.log(err);
+        } else {
+            res.json({
+                result: 'ok',
+                _id: result._id,
+                bordado: result.bordado
+            });
+            res.end();
+        }
+    });
 
 });
 
@@ -133,24 +103,24 @@ router.route('/bordados/:id')
 
 })
 
-// PUT (update)
-// 	.put(function(req, res, next) {
-// 		
-// 	    Caneva.update({ _id: req.body._id }, req.body).exec(function(err, result) {
-// 
-// 	        if (err) {
-// 	            console.log(err);
-// 	        } else {
-// 
-//             result = {
-//                 result: result.ok == 1 ? 'ok' : 'error'
-//             };
-// 	            res.json(result);
-// 	            res.end();
-// 	        }
-// 	    });
-// 
-// })
+	// PUT (update)
+	.put(function(req, res, next) {
+		
+	    Caneva.update({ _id: req.body._id }, req.body).exec(function(err, result) {
+
+	        if (err) {
+	            console.log(err);
+	        } else {
+
+            result = {
+                result: result.ok == 1 ? 'ok' : 'error'
+            };
+	            res.json(result);
+	            res.end();
+	        }
+	    });
+
+})
 
 // DELETE
 .delete(function(req, res, next) {
