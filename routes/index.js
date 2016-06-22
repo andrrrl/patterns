@@ -86,27 +86,27 @@ router.param('id', function(req, res, next, id) {
 // GET (load)
 router.route('/bordados/:id')
 
-.get(function(req, res, next) {
+	.get(function(req, res, next) {
 
-    Caneva.findOne({
-        '_id': req.params.id
-    }).exec(function(err, db_bordado) {
+	    Caneva.findOne({
+	        '_id': req.params.id
+	    }).exec(function(err, db_bordado) {
 
-        if (err) {
-            console.log(err);
-        } else {
+	        if (err) {
+	            console.log(err);
+	        } else {
 
-            res.json(db_bordado);
-            res.end();
-        }
-    });
+	            res.json(db_bordado);
+	            res.end();
+	        }
+	    });
 
-})
+	})
 
 	// PUT (update)
 	.put(function(req, res, next) {
 		
-	    Caneva.update({ _id: req.body._id }, req.body).exec(function(err, result) {
+	    Caneva.update({ _id: req.body._id }, req.body, { multi: false, upsert: false }).exec(function(err, result) {
 
 	        if (err) {
 	            console.log(err);
@@ -120,33 +120,33 @@ router.route('/bordados/:id')
 	        }
 	    });
 
-})
+	})
 
-// DELETE
-.delete(function(req, res, next) {
+	// DELETE
+	.delete(function(req, res, next) {
 
-    Caneva.find({
-        '_id': req.params.id
-    }).exec(function(err, bordado) {
-        if (err) {
-            console.log(err);
-        } else {
-            Caneva.remove({
-                '_id': req.params.id
-            }).exec(function(err, result) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    res.json({
-                        result: 'ok'
-                    });
-                    res.end();
-                }
-            });
-        }
-    });
+	    Caneva.find({
+	        '_id': req.params.id
+	    }).exec(function(err, bordado) {
+	        if (err) {
+	            console.log(err);
+	        } else {
+	            Caneva.remove({
+	                '_id': req.params.id
+	            }).exec(function(err, result) {
+	                if (err) {
+	                    console.log(err);
+	                } else {
+	                    res.json({
+	                        result: 'ok'
+	                    });
+	                    res.end();
+	                }
+	            });
+	        }
+	    });
 
-});
+	});
 
 
 module.exports = router;

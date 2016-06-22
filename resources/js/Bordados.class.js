@@ -145,7 +145,7 @@ Bordado.prototype = {
 			
 			$.ajax({
 				url: this.ajax_script + this.save_action + (Bordado.data.id || ''),
-				method: 'POST',
+				method: Bordado._method,
                 beforeSend: function (xhr) {
                     if ( Bordado._method == 'PUT' )
                         xhr.setRequestHeader('X-HTTP-Method-Override', 'PUT');

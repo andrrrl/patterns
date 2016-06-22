@@ -27,8 +27,6 @@ MongoDB.once('open', function() {
     console.log('Connected to MongoDB with user ' + mongo_user);
 });
 
-
-
 var ConfigSchema = new mongoose.Schema({
     owner: String,
     title: String,
