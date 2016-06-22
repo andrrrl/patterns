@@ -160,8 +160,9 @@ Bordado.prototype = {
 							
 							if ( $('body').find('[data-id=' + (Bordado.data.id || res._id) + ']').length === 0 ) {
 
-                                if ( $('#lista-bordados-borrar ul').find('li').filter(':contains("No hay bordados guardados') )
+                                if ( $('#lista-bordados-borrar ul').find('li').filter(':contains("No hay bordados guardados")') ) {
                                     $('#lista-bordados-borrar').html('');
+								}
                                 
 								$('#lista-bordados-borrar').prepend(
 									'<li class="list-group-item"><a data-id="' + res._id + '" ' +

@@ -125,25 +125,18 @@ router.route('/bordados/:id')
 	// DELETE
 	.delete(function(req, res, next) {
 
-	    Caneva.find({
-	        '_id': req.params.id
+	    Caneva.remove({
+	        '_id': ObjectId(req.params.id)
 	    }).exec(function(err, bordado) {
 	        if (err) {
 	            console.log(err);
 	        } else {
-	            Caneva.remove({
-	                '_id': req.params.id
-	            }).exec(function(err, result) {
-	                if (err) {
-	                    console.log(err);
-	                } else {
-	                    res.json({
-	                        result: 'ok'
-	                    });
-	                    res.end();
-	                }
-	            });
-	        }
+        
+                res.json({
+                    result: 'ok'
+                });
+                res.end();
+            }
 	    });
 
 	});
