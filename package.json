@@ -5,7 +5,7 @@
   "private": true,
   "main": "start.js",
   "scripts": {
-    "start": "if [ ! -z $OPENSHIFT_NODEJS_IP ]; then nodemon start.js; else node start.js; fi"
+    "start": ": && if [ ! -z $OPENSHIFT_NODEJS_IP ]; then nodemon start.js; else node start.js; fi"
   },
   "author": "Andrrr <andresin@gmail.com>",
   "license": "MIT",
