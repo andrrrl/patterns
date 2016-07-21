@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
         } else {
             res.render('index', {
                 index: {
-                    lang: req.headers['accept-language'].slice(0, 2) || 'en',
+                    lang: (req.headers['accept-language'] ? req.headers['accept-language'].slice(0, 2) : 'en'),
                     config: db_config
                 }
             }); // render
@@ -158,7 +158,7 @@ var uploading = multer({
     },
 })
 
-router.route('/bordados/frames/save')
+router.route('/bordados/renders/save')
 	.post(function(req, res) {
 		
 		var id = req.body.id;

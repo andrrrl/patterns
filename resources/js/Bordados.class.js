@@ -1217,11 +1217,16 @@ Bordado.prototype = {
 		var Bordado = this;
 		var bordado_html = $('.caneva');
 		
+		// html2canvas(bordado_html, canvas).then(function(canvas) {
+        //     console.log('Drew on the existing canvas');
+		// 	Bordado.png(canvas, img_name);
+        // });
+		
 		html2canvas(bordado_html, {
 			
 			onrendered: function(canvas) {
-				//document.body.appendChild(canvas);
 				// Generar PNG y guardarlo
+				document.body.appendChild(canvas);
 				Bordado.png(canvas, img_name);
 			},
 			
@@ -1232,17 +1237,19 @@ Bordado.prototype = {
 	png: function(canvas, img_name) {
 		
 		var Bordado = this;
+		
 		var img = {};
-		
+		// Convert canvas to base64 PNG string 
 		img.data = canvas.toDataURL('image/png');
+		// Remove the base64 header (so it can be converted to file)
 		img.data = img.data.replace(/data:image\/png;base64,/, '');
-		
+		// Set image name
 		img.name = img_name || Bordado.data.bordado;
-
+		// Set image id (to be used as folder name)
 		img.id = Bordado.data.id;
 		
 		$.ajax({
-			url: '/bordados/frames/save',
+			url: '/bordados/renders/save',
 			method: 'post',
 			dataType: 'json',
 			data: { 
@@ -1251,8 +1258,8 @@ Bordado.prototype = {
 				id: img.id
 			},
 			success: function(res){
-				console.info(res.message);
 				if ( res.message == 'ok' ) {
+					console.info('PNG ' + img.name + ' guardado');
 					$('.save-frame-message').html(
 						'<small>Frame guardado!</small>'
 					);
