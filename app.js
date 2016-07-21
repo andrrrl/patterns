@@ -21,7 +21,7 @@ app.use('/styles',  express.static(__dirname + '/bower_components/font-awesome/c
 app.use('/scripts', express.static(__dirname + '/bower_components/bootstrap/dist/js')); // redirect bootstrap JS
 app.use('/scripts', express.static(__dirname + '/bower_components/bootstrap3-dialog/dist/js')); // redirect bootstrap-dialog JS
 app.use('/scripts', express.static(__dirname + '/bower_components/jquery/dist')); // redirect JS jQuery
-app.use('/scripts', express.static(__dirname + '/resources/js/html2canvas/dist')); // redirect html2canvas
+app.use('/scripts', express.static(__dirname + '/bower_components/html2canvas/build')); // redirect html2canvas
 
 // public
 app.use(express.static(path.join(__dirname, 'public')));
