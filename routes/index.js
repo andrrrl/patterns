@@ -165,18 +165,20 @@ router.route('/bordados/frames/save')
 		var name  = req.body.bordado;
 		var image = new Buffer(req.body.image, 'base64');
 		
-		mkdirp('public/renders/' + id, function(err){
-			fs.writeFile('public/renders/' + id + '/' + name + '.png', image, function(err) {
-			    if (err) {
-					res.json({ message: 'err' });
-					res.end();
-			    } else {
-					res.json({ message: 'ok' });
-					res.end();
-				}
+		if ( typeof process.env.OPENSHIFT_NODEJS_IP == 'undefined' ) {
+			mkdirp('public/renders/' + id, function(err){
+				fs.writeFile('public/renders/' + id + '/' + name + '.png', image, function(err) {
+				    if (err) {
+						res.json({ message: 'err' });
+						res.end();
+				    } else {
+						res.json({ message: 'ok' });
+						res.end();
+					}
 
+				});
 			});
-		});
+		}
 		
 	});
 
