@@ -54,14 +54,20 @@ PuntoCSS.prototype = {
     constructor: PuntoCSS,
     generarPunto: function(tipo_punto) {
         this.css.tipo_punto = tipo_punto || this.css.tipo_punto;
-        var css = {
+        var css_cruz = {
             background: this.css.color_hilo,
             width: this.css.ancho_hilo,
+            height: this.css.alto,
             border: "1px solid rgba(100,100,100,0.25)",
             borderRadius: this.css.ancho_hilo
+        }, css_cuadrado = {
+            background: this.css.color_hilo,
+            width: "100%",
+            height: "100%"
         };
         return this.puntos = {
-            cruz: $(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto + 1).css(css).add($(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto + 2).css(css))
+            cruz: $(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto + 1).css(css_cruz).add($(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto + 2).css(css_cruz)),
+            cuadrado: $(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto + 1).css(css_cuadrado)
         }, tipo_punto === !1 ? this.puntos : this.puntos[tipo_punto] || this.puntos.cruz;
     },
     verPuntos: function() {

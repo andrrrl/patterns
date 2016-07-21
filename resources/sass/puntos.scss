@@ -6,30 +6,27 @@
  * 
  */
 
-@mixin cruz($w, $h, $tx, $ty, $deg, $color: transparent) {
-	
-	$tx: 0;
-	$ty: 0;
-	
+@mixin cruz($w, $h, $top, $left, $deg: 0, $color: transparent) {
+		
 	background: $color;
 	height: $h;
 	width: $w;
 	border-radius: round($w / 2);
     border: 1px solid rgba($color, 0.5);
 
-	transform: rotateZ($deg + deg) translate($tx, $ty);
-	transform-origin: center;
+	transform: rotateZ($deg + deg);
+	transform-origin: top;
 	
 	position: absolute;
-	left: 7px;
-	bottom: -6px;
+	top: $top;
+	left: $left;
     z-index: 1;
 }
 
 
 .cruz1 {
-	@include cruz(5px, 30px, 0px, -7px, 45);	
+	@include cruz(5px, 155%, 0%, 98%, 45);	
 }
 .cruz2 {
-	@include cruz(5px, 30px, -7px, 0px, 135);	
+	@include cruz(5px, 155%, 107%, 100%, 135);	
 }

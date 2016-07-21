@@ -18,24 +18,56 @@ PuntoCSS.prototype = {
 		
 		this.css.tipo_punto = tipo_punto || this.css.tipo_punto;
 		
-		var css = { 
+		/**
+			
+			width: 3px;
+			height: 30px;
+			left: 7px;
+			bottom: -6px;
+			
+			left: 11px;
+			bottom: -6px;
+			height: 35px;
+			
+			///////////
+			
+		    width: 11px;
+			height: 30px;
+			left: 7px;
+    		bottom: -6px;
+			
+		 */
+		
+		var 
+		css_cruz = { 
 			background: this.css.color_hilo, 
 			width: this.css.ancho_hilo,
+			height: this.css.alto,
 			border: '1px solid rgba(100,100,100,0.25)',
 			borderRadius:this.css.ancho_hilo
-		};
+		},
+		css_cuadrado = {
+			background: this.css.color_hilo, 
+			width: '100%',
+			height: '100%'
+		}
 		
 		this.puntos = {
 			
 			cruz: 
 				$(this.css.start_tag + this.css.end_tag)
 					.addClass(this.css.tipo_punto + 1)
-					.css( css )
+					.css( css_cruz )
 					.add(
 						$(this.css.start_tag + this.css.end_tag)
 							.addClass(this.css.tipo_punto + 2)
-							.css( css )
-					)
+							.css( css_cruz )
+					),
+					
+			cuadrado: 
+				$(this.css.start_tag + this.css.end_tag)
+					.addClass(this.css.tipo_punto + 1)
+					.css( css_cuadrado )
 				
 		}
 		

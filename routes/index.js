@@ -167,7 +167,7 @@ router.route('/bordados/renders/save')
 		
 		if ( typeof process.env.OPENSHIFT_NODEJS_IP == 'undefined' ) {
 			mkdirp('public/renders/' + id, function(err){
-				fs.writeFile('public/renders/' + id + '/' + name + '.png', image, function(err) {
+				fs.writeFile('public/renders/' + name + '-' + id + '/' + name + '.png', image, function(err) {
 				    if (err) {
 						res.json({ message: 'err' });
 						res.end();
