@@ -1,5 +1,5 @@
 @import "compass";
-@import "../css/bootstrap.min.css";
+@import "../styles/bootstrap.min.css";
 
 .modal-body {
 	height: auto;
@@ -34,11 +34,11 @@
 
 .opciones-ventana {
 	display: none;
-	width: 130px;
+	width: 150px;
     float: left;
     position: absolute;
     top: 60px;
-    left: -135px;
+    left: -155px;
 	padding: 20px;
 }
 .bootstrap-dialog-message {

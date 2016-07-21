@@ -5,7 +5,7 @@
   "private": true,
   "main": "start.js",
   "scripts": {
-    "start": "node start.js"
+    "start": "nodemon start.js"
   },
   "author": "Andrrr <andresin@gmail.com>",
   "license": "MIT",
@@ -27,6 +27,7 @@
     "method-override": "^2.3.6",
     "mongoose": "^4.4.20",
     "morgan": "^1.7.0",
+    "multer": "^1.1.0",
     "nodemon": "^1.9.2",
     "serve-favicon": "^2.3.0"
   },
@@ -37,5 +38,6 @@
     "grunt-contrib-sass": "^1.0.0",
     "grunt-contrib-uglify": "^1.0.1",
     "grunt-contrib-watch": "^1.0.0"
-  }
+  },
+  "eslintConfig": {}
 }

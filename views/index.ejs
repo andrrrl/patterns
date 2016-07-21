@@ -11,6 +11,9 @@
 	<script src="scripts/bootstrap.min.js"></script>
 	<script src="scripts/bootstrap-dialog.min.js"></script>
 	<script src="scripts/bordados-class.js"></script>
+	<script src="scripts/html2canvas.js"></script>
+		
+	</script>
 	<script>
 	$(document).ready(function() {
 
@@ -20,9 +23,7 @@
 		var bordado = new Bordado();
 		bordado.listar();
 
-
 		$('form').submit(function(e){
-
 			e.preventDefault();
 
 			var bordado_data = {
@@ -43,10 +44,10 @@
 			bordado_nuevo.grilla({
 				data : bordado_data,
 				mostrar	: true,
-				animar	: { speed: $('input[name=velocidad]').val() || bordado_nuevo.animar.speed }
+				animar	: { speed: $('input[name=velocidad]').val() || bordado_nuevo.animar.speed },
+				gif: $('input[name=velocidad-gif]').val() || bordado_nuevo.gif
 			});
 		});
-
 
 	});
 	</script>
@@ -77,9 +78,19 @@
 									<label for="animar">Animar cada puntada (milisegundos)</label>
 									<div class="input-group">
 										<span class="input-group-addon">
-											<input name="animar" type="checkbox" aria-label="animar">
+											<input name="animar" type="checkbox" aria-label="animar" data-toggle="collapse" data-target="#show-gif">
 										</span>
 										<input name="velocidad" type="text" class="form-control" aria-label="velocidad" placeholder="velocidad" value="50" disabled>
+									</div>
+									<hr>
+									<div class="collapse" id="show-gif">
+										<label for="generar-gif">Generar animación GIF</label>
+										<div class="input-group">
+											<span class="input-group-addon">
+												<input name="gif" type="checkbox" aria-label="gif">
+											</span>
+											<input name="velocidad-gif" type="text" class="form-control" aria-label="velocidad-gif" placeholder="velocidad-gif" value="16" disabled>
+										</div>
 									</div>
 								</div>
 							</div>

@@ -1,5 +1,9 @@
 var express = require('express'),
     router = express.Router(),
+	path   = require('path'),
+    multer = require('multer'),
+	fs	   = require('fs'),
+	mkdirp = require('mkdirp'),
     printf = require('util').format;
 
 var schemas = require('../db');
@@ -86,60 +90,94 @@ router.param('id', function(req, res, next, id) {
 // GET (load)
 router.route('/bordados/:id')
 
-	.get(function(req, res, next) {
+.get(function(req, res, next) {
 
-	    Caneva.findOne({
-	        '_id': req.params.id
-	    }).exec(function(err, db_bordado) {
+    Caneva.findOne({
+        '_id': req.params.id
+    }).exec(function(err, db_bordado) {
 
-	        if (err) {
-	            console.log(err);
-	        } else {
+        if (err) {
+            console.log(err);
+        } else {
 
-	            res.json(db_bordado);
-	            res.end();
-	        }
-	    });
+            res.json(db_bordado);
+            res.end();
+        }
+    });
 
-	})
+})
 
-	// PUT (update)
-	.put(function(req, res, next) {
-		
-	    Caneva.update({ _id: req.body._id }, req.body, { multi: false, upsert: false }).exec(function(err, result) {
+// PUT (update)
+.put(function(req, res, next) {
 
-	        if (err) {
-	            console.log(err);
-	        } else {
+    Caneva.update({
+        _id: req.body._id
+    }, req.body, {
+        multi: false,
+        upsert: false
+    }).exec(function(err, result) {
+
+        if (err) {
+            console.log(err);
+        } else {
 
             result = {
                 result: result.ok == 1 ? 'ok' : 'error'
             };
-	            res.json(result);
-	            res.end();
-	        }
-	    });
+            res.json(result);
+            res.end();
+        }
+    });
 
-	})
+})
 
-	// DELETE
-	.delete(function(req, res, next) {
+// DELETE
+.delete(function(req, res, next) {
 
-	    Caneva.remove({
-	        '_id': ObjectId(req.params.id)
-	    }).exec(function(err, bordado) {
-	        if (err) {
-	            console.log(err);
-	        } else {
-        
-                res.json({
-                    result: 'ok'
-                });
-                res.end();
-            }
-	    });
+    Caneva.remove({
+        _id: req.params.id
+    }).exec(function(err, bordado) {
+        if (err) {
+            console.log(err);
+        } else {
 
+            res.json({
+                result: 'ok'
+            });
+            res.end();
+        }
+    });
+
+});
+
+var uploading = multer({
+    dest: path.join('public/renders/'),
+    limits: { 
+        fileSize: 100000000,
+        files: 1
+    },
+})
+
+router.route('/bordados/frames/save')
+	.post(function(req, res) {
+		
+		var id = req.body.id;
+		var name  = req.body.bordado;
+		var image = new Buffer(req.body.image, 'base64');
+		
+		mkdirp('public/renders/' + id, function(err){
+			fs.writeFile('public/renders/' + id + '/' + name + '.png', image, function(err) {
+			    if (err) {
+					res.json({ message: 'err' });
+					res.end();
+			    } else {
+					res.json({ message: 'ok' });
+					res.end();
+				}
+
+			});
+		});
+		
 	});
-
 
 module.exports = router;

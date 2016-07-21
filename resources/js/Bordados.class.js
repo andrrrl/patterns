@@ -46,8 +46,8 @@ function Bordado(nombre_bordado, contenedor) {
 	this.mostrar = true;
 
 	// Animate?
-	this.animar = { speed: 0 };
-
+	this.animar = { speed: 0, gif: false };
+	
 	// Mouse and Key events registered? (to avoid duplicated)
 	this.registrados = false;
 
@@ -102,6 +102,9 @@ Bordado.prototype = {
 						Bordado.data.coords = coords;
 						if ( $('input[name=velocidad]').prop('disabled') === false ) {
 							Bordado.animar.speed = $('input[name=velocidad]').val() || Bordado.animar.speed;
+						}
+						if ( $('input[name=velocidad-gif]').prop('disabled') === false ) {
+							Bordado.animar.gif = $('input[name=velocidad-gif]').val() || Bordado.animar.gif;
 						}
 
 						Bordado.grilla(opciones);
@@ -368,6 +371,13 @@ Bordado.prototype = {
 							Bordado.animar.speed = 0;
 						}
 					});
+					
+					$('input[name=gif]').on('click', function(){
+						$('input[name=velocidad-gif]').prop('disabled', !$('input[name=velocidad-gif]').prop('disabled'));
+						if ( $('input[name=velocidad-gif]').prop('disabled') === true ) {
+							Bordado.animar.gif = false;
+						}
+					});
 
 					console.info('[OK] $.ajax: Lista de bordados cargada.');
 				} else {
@@ -523,6 +533,9 @@ Bordado.prototype = {
 						//'<input class="form-control" type="color" name="cambiar_color_malla" value="' + Bordado.data.color_malla + '">' +
 						'<br><div class="form-group">' +
 							'<button class="btn btn-info" name="toggle-malla">Ocultar malla</button>' +
+							'<hr>' +
+							'<button class="btn btn-success" name="save-frame"><small>Generar PNG</small></button>' + 
+							'<div class="save-frame-message"></div>' +
 						'</div>' +
 					'</form>' +
 				'</div>' +
@@ -573,24 +586,38 @@ Bordado.prototype = {
 					width: dialog_size
 				});
 
-
-
 				$bordado_html.show();
 
 				if ( typeof Bordado.animar != 'undefined' && Bordado.animar.speed > 0 ) {
 
 					$('.celda').html('');
 
+					if ( Bordado.animar.gif ) {
+						Bordado.animar.speed = 1000;
+					}
+
 					//Bordado.shuffle();
-					var i = 0;
+					var i = 0,
+						n = '';
 					$interval2 = setInterval(function() {
 						Bordado.puntos.colorHilo(Bordado.data.coords[i].color_hilo);
 						Bordado.puntos.anchoHilo(Bordado.data.coords[i].ancho_hilo);
 
 						var rel = Bordado.data.coords[i].coord.x + ',' + Bordado.data.coords[i].coord.y;
-						$('.celda[rel="' + rel + '"]').
-							html(Bordado.puntos.generarPunto(Bordado.data.coords[i].punto));
+						$('.celda[rel="' + rel + '"]').html(Bordado.puntos.generarPunto(Bordado.data.coords[i].punto));
+						
+						if ( Bordado.animar.gif ) {
+							if ( i < 10 ) {
+								n = '-000' + i;
+							} else if ( i < 100 ) {
+								n = '-00' + i;
+							} else if ( i < 1000 ) {
+								n = '-0' + i;
+							}
+							Bordado.render(Bordado.data.bordado + n);
+						}
 						i++;
+						
 						if ( i == Bordado.data.coords.length ) {
 							clearInterval($interval2);
 						}
@@ -605,8 +632,8 @@ Bordado.prototype = {
 						Bordado.puntos.tipoPunto(Bordado.data.coords[p].punto);
 
 						var rel = Bordado.data.coords[p].coord.x + ',' + Bordado.data.coords[p].coord.y;
-						$('.celda[rel="' + rel + '"]').
-							html(Bordado.puntos.generarPunto(Bordado.data.coords[p].punto));
+						$('.celda[rel="' + rel + '"]')
+							.html(Bordado.puntos.generarPunto(Bordado.data.coords[p].punto));
 					}
 
 				}
@@ -961,6 +988,12 @@ Bordado.prototype = {
 					}
 				});
 			});
+			
+			$('button[name="save-frame"]').on('click', function(e){
+				e.preventDefault();
+				Bordado.render(Bordado.data.bordado + '-frame-' + Math.random(0,1000));
+			});
+			
 		} // fin de this.registrados
 	}, // fin de eventos
 
@@ -1169,7 +1202,7 @@ Bordado.prototype = {
 			if (index > -1) {
 				this.data.coords.splice(index, 1);
 				// Mantener las coordenas ordenadas
-				this.data.coords.sort();
+				//this.data.coords.sort();
 
 				$('.celda[rel="' + coord + '"]').html(' ').removeClass('clicked');
 
@@ -1177,6 +1210,61 @@ Bordado.prototype = {
 			}
 			i++;
 		}
-	}
+	},
 
+	// Generar png
+	render: function(img_name) {
+		var Bordado = this;
+		var bordado_html = $('.caneva');
+		
+		html2canvas(bordado_html, {
+			
+			onrendered: function(canvas) {
+				//document.body.appendChild(canvas);
+			},
+			
+		}).then(function(canvas) {
+
+			// Generar PNG y guardarlo
+			Bordado.png(canvas, img_name);
+
+	    });
+	},
+	
+	// Guardar PNG
+	png: function(canvas, img_name) {
+		
+		var Bordado = this;
+		var img = {};
+		
+		img.data = canvas.toDataURL('image/png');
+		img.data = img.data.replace(/data:image\/png;base64,/, '');
+		
+		img.name = img_name || Bordado.data.bordado;
+
+		img.id = Bordado.data.id;
+		
+		$.ajax({
+			url: '/bordados/frames/save',
+			method: 'post',
+			dataType: 'json',
+			data: { 
+				image: img.data, 
+				bordado: img.name,
+				id: img.id
+			},
+			success: function(res){
+				console.info(res.message);
+				if ( res.message == 'ok' ) {
+					$('.save-frame-message').html(
+						'<small>Frame guardado!</small>'
+					);
+				}
+			},
+			error: function(err) {
+				console.log(err);
+			}
+		});
+		
+	}
 };

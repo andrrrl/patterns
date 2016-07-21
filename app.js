@@ -21,6 +21,7 @@ app.use('/styles',  express.static(__dirname + '/bower_components/font-awesome/c
 app.use('/scripts', express.static(__dirname + '/bower_components/bootstrap/dist/js')); // redirect bootstrap JS
 app.use('/scripts', express.static(__dirname + '/bower_components/bootstrap3-dialog/dist/js')); // redirect bootstrap-dialog JS
 app.use('/scripts', express.static(__dirname + '/bower_components/jquery/dist')); // redirect JS jQuery
+app.use('/scripts', express.static(__dirname + '/resources/js/html2canvas/dist')); // redirect html2canvas
 
 // public
 app.use(express.static(path.join(__dirname, 'public')));
@@ -32,15 +33,15 @@ app.set('view options', {
     pretty: true
 });
 
-
 // uncomment after placing your favicon in /public/images/
 //app.use(favicon(__dirname + '/public/images/favicon.ico'));
 app.use(morgan('dev'));
 // app.use(logger('dev'));
+app.use(cookieParser({limit: '50mb'}));
 app.use(bodyParser.json()); // support json encoded bodies
-app.use(cookieParser());
 app.use(bodyParser.urlencoded({
-    extended: true // support encoded bodies
+    extended: true, // support encoded bodies
+	parameterLimit: 50000
 }));
 app.use(methodOverride('_method'));
 app.use(methodOverride('X-HTTP-Method-Override'));
