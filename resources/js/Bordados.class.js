@@ -1221,14 +1221,11 @@ Bordado.prototype = {
 			
 			onrendered: function(canvas) {
 				//document.body.appendChild(canvas);
+				// Generar PNG y guardarlo
+				Bordado.png(canvas, img_name);
 			},
 			
-		}).then(function(canvas) {
-
-			// Generar PNG y guardarlo
-			Bordado.png(canvas, img_name);
-
-	    });
+		});
 	},
 	
 	// Guardar PNG
