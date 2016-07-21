@@ -7,12 +7,13 @@ module.exports = function (grunt) {
           },
           css: {
             // Files to watch for
-            files: ['resources/sass/screen.scss'],
+            files: ['resources/sass/screen.scss', 'resources/sass/puntos.scss'],
             tasks: ['compass:dev']
           },
           js: {
             // Files to watch for
             files: [
+                'resources/js/PuntosCSS.class.js', 
                 'resources/js/PuntosSVG.class.js', 
                 'resources/js/Bordados.class.js' 
             ],
@@ -34,12 +35,13 @@ module.exports = function (grunt) {
             dev: {
                 options: {
                     mangle: false, // prevent changing function names
-                    //beautify: true
+                    beautify: true 
                 },
                 // Files to compile
                 files: {
                   // "dest" : "src(s)" array
                   'public/scripts/bordados-class.js': [
+                      'resources/js/PuntosCSS.class.js', 
                       'resources/js/PuntosSVG.class.js', 
                       'resources/js/Bordados.class.js' 
                   ]
@@ -51,8 +53,12 @@ module.exports = function (grunt) {
                 },
                 // Files to compile
                 files: {
-                  // "dest" : "src(s)" array
-                  'public/scripts/bordados.min.js': [ 'resources/js/PuntosSVG.class.js', 'resources/js/Bordados.class.js' ]
+                	// "dest" : "src(s)" array
+					'public/scripts/bordados.min.js': [ 
+						'resources/js/PuntosCSS.class.js', 
+						'resources/js/PuntosSVG.class.js', 
+						'resources/js/Bordados.class.js' 
+					]
                 }
             }
         }
