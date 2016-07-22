@@ -109,25 +109,38 @@ router.route('/bordados/:id')
 
 // PUT (update)
 .put(function(req, res, next) {
+	
+	
+	Caneva.findByIdAndUpdate(req.body.id, { $set: { coords: req.body.coords }}, function (err, bor) {
+		if (err) {
+			res.json({result:'error'});
+			res.end();
+			// return handleError(err);
+		}	
+		
+		res.json({result: 'ok'});
+		res.end();
+	});
+	
 
-    Caneva.update({
-        _id: req.body._id
-    }, req.body, {
-        multi: false,
-        upsert: false
-    }).exec(function(err, result) {
-
-        if (err) {
-            console.log(err);
-        } else {
-
-            result = {
-                result: result.ok == 1 ? 'ok' : 'error'
-            };
-            res.json(result);
-            res.end();
-        }
-    });
+	// Caneva.update({
+	//     _id: req.body._id
+	// }, req.body, {
+	//     multi: false,
+	//     upsert: false
+	// }).exec(function(err, result) {
+	// 
+	//     if (err) {
+	//         console.log(err);
+	//     } else {
+	// 
+	//         result = {
+	//             result: result.ok == 1 ? 'ok' : 'error'
+	//         };
+	//         res.json(result);
+	//         res.end();
+	//     }
+	// });
 
 })
 
