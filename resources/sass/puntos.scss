@@ -25,7 +25,7 @@
 
 
 .cruz1 {
-	@include cruz(5px, 155%, 0%, 98%, 45);	
+	@include cruz(5px, 155%, -5%, 98%, 45);	
 }
 .cruz2 {
 	@include cruz(5px, 155%, 107%, 100%, 135);	
