@@ -122,26 +122,6 @@ router.route('/bordados/:id')
 		res.end();
 	});
 	
-
-	// Caneva.update({
-	//     _id: req.body._id
-	// }, req.body, {
-	//     multi: false,
-	//     upsert: false
-	// }).exec(function(err, result) {
-	// 
-	//     if (err) {
-	//         console.log(err);
-	//     } else {
-	// 
-	//         result = {
-	//             result: result.ok == 1 ? 'ok' : 'error'
-	//         };
-	//         res.json(result);
-	//         res.end();
-	//     }
-	// });
-
 })
 
 // DELETE
