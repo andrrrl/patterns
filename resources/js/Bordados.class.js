@@ -508,8 +508,6 @@ Bordado.prototype = {
 				'data-save-text="Guardar" ' +
 				'data-saving-text="Guardando..." ' +
 				'data-saved-text="Guardado!" ' +
-				'data-toggle="tooltip" ' +
-				'data-title="Guardar bordado" ' +
 				'autocomplete="off">Guardar' +
 			'</button> ' +
 			'<button id="limpiar" class="btn btn-danger">Limpiar</button>' +
@@ -546,7 +544,7 @@ Bordado.prototype = {
 						'<br><div class="form-group">' +
 							'<button class="btn btn-info" name="toggle-malla">Ocultar malla</button>' +
 							'<hr>' +
-							'<button class="btn btn-success" name="save-frame"><small>Generar PNG</small></button>' + 
+							'<button class="btn btn-success" name="save-frame" data-toggle="tooltip" data-title="Sólo local"><small>Generar PNG</small></button>' + 
 							'<div class="save-frame-message"></div>' +
 						'</div>' +
 					'</form>' +
@@ -678,6 +676,8 @@ Bordado.prototype = {
 			$color_hilo 	= $('[name=cambiar_color_hilo]');
 			$ancho_hilo 	= $('[name=cambiar_ancho_hilo]');
 			$select_punto 	= $('[name=cambiar_punto]');
+			
+			$('[data-toggle="tooltip"]').tooltip();
 
 			// Botón Guardar
 			$(this.btn_save).unbind('click').on('click', function(e) {
@@ -714,22 +714,15 @@ Bordado.prototype = {
 							// Ancho...
 							Bordado.puntos.anchoHilo( $ancho_hilo.val() );
 
-							// Tipo de Punto...
-							// var punto_svg = Bordado.puntos.generarPunto(
-							// 	$select_punto.val() || Bordado.punto_base
-							// );
-
 							// Tipo de Punto (css)...
 							var punto_css = Bordado.puntos.generarPunto(
 								$select_punto.val() || Bordado.punto_base
 							);
 
 							// (1) Agregar nuevo punto SVG a la Grilla
-							// $(this).html(punto_svg).addClass('clicked');
 							$(this).html(punto_css).addClass('clicked');
 
 							// (2) Agregar nuevo punto al Array de Puntos
-
 							if ( rel ) {
 								var xy = rel.split(',');
 								Bordado.agregar({
@@ -802,11 +795,6 @@ Bordado.prototype = {
 
 					// Ancho...
 					Bordado.puntos.anchoHilo( $ancho_hilo.val() );
-
-					// Tipo de Punto...
-					// var punto_svg = Bordado.puntos.generarPunto(
-					// 	$select_punto.val() || Bordado.punto_base
-					// );
 					
 					// Tipo de Punto (css)...
 					var punto_css = Bordado.puntos.generarPunto(
@@ -819,7 +807,6 @@ Bordado.prototype = {
 					var rel = $(this).attr('rel');
 
 					// (1) Agregar nuevo punto SVG a la Grilla
-					//$(this).html(punto_svg).addClass('clicked');
 					$(this).html(punto_css).addClass('clicked');
 
 					// (2) Agregar nuevo punto al Array de Puntos
@@ -1142,7 +1129,7 @@ Bordado.prototype = {
 			}
 
 		} else {
-			console.info('No hay punto para mover! Haz click en la grilla.s');
+			console.info('No hay punto para mover! Haz click en la grilla.');
 		}
 
 	},

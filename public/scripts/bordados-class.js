@@ -307,7 +307,7 @@ PuntoCSS.prototype = {
         var select_cambiar_punto = '<select class="form-control" name="cambiar_punto" id="punto">';
         $.each(Bordado.puntos.verPuntos(), function(punto, svg) {
             select_cambiar_punto += '<option value="' + punto + '"' + (punto == Bordado.data.punto_base ? " selected" : "") + ">" + punto.replace(/\_/g, " ") + "</option>";
-        }), select_cambiar_punto += "</select>", $form = $('<form name="guardar" class="form-inline">' + (Bordado.data.id ? "" : '<input type="text" class="form-control" name="bordado" id="bordado" value="' + $("#bordado-nuevo").val() + '" placeholder="Nombre de tu bordado">') + '<button id="guardar-bordado" class="btn btn-success" name="guardar" data-save-text="Guardar" data-saving-text="Guardando..." data-saved-text="Guardado!" data-toggle="tooltip" data-title="Guardar bordado" autocomplete="off">Guardar</button> <button id="limpiar" class="btn btn-danger">Limpiar</button></form><aside class="container opciones-ventana alert alert-info"><div class="row"><form name="opciones" class="form"><div class="form-group"><label for="cambiar_punto">Punto:</label>' + select_cambiar_punto + '</div><div class="form-group"><label for="ancho_hilo">Grosor de hilo:</label><input class="form-control" type="number" name="cambiar_ancho_hilo" value="' + Bordado.data.ancho_hilo + '" min="1" max="20" step="1"></div><!--div class="form-group"><label for="ancho_punto">Ancho de punto:</label><input class="form-control" type="number" name="cambiar_ancho_punto" value="' + Bordado.data.ancho_punto + '" min="1" max="30" step="1"></div--><div class="form-group"><label for="color_hilo">Color de hilo:</label><input class="form-control" type="color" name="cambiar_color_hilo" value="' + Bordado.data.color_hilo + '"></div><div class="form-group"><label for="color_bg">Color de tela:</label><input class="form-control" type="color" name="cambiar_color_bg" value="' + Bordado.data.color_bg + '"></div><label for="color_picker">Tomar color:</label><span class="input-group-addon"><input name="color_picker" type="checkbox" aria-label="animar"></span><br><div class="form-group"><button class="btn btn-info" name="toggle-malla">Ocultar malla</button><hr><button class="btn btn-success" name="save-frame"><small>Generar PNG</small></button><div class="save-frame-message"></div></div></form></div></aside>'), 
+        }), select_cambiar_punto += "</select>", $form = $('<form name="guardar" class="form-inline">' + (Bordado.data.id ? "" : '<input type="text" class="form-control" name="bordado" id="bordado" value="' + $("#bordado-nuevo").val() + '" placeholder="Nombre de tu bordado">') + '<button id="guardar-bordado" class="btn btn-success" name="guardar" data-save-text="Guardar" data-saving-text="Guardando..." data-saved-text="Guardado!" autocomplete="off">Guardar</button> <button id="limpiar" class="btn btn-danger">Limpiar</button></form><aside class="container opciones-ventana alert alert-info"><div class="row"><form name="opciones" class="form"><div class="form-group"><label for="cambiar_punto">Punto:</label>' + select_cambiar_punto + '</div><div class="form-group"><label for="ancho_hilo">Grosor de hilo:</label><input class="form-control" type="number" name="cambiar_ancho_hilo" value="' + Bordado.data.ancho_hilo + '" min="1" max="20" step="1"></div><!--div class="form-group"><label for="ancho_punto">Ancho de punto:</label><input class="form-control" type="number" name="cambiar_ancho_punto" value="' + Bordado.data.ancho_punto + '" min="1" max="30" step="1"></div--><div class="form-group"><label for="color_hilo">Color de hilo:</label><input class="form-control" type="color" name="cambiar_color_hilo" value="' + Bordado.data.color_hilo + '"></div><div class="form-group"><label for="color_bg">Color de tela:</label><input class="form-control" type="color" name="cambiar_color_bg" value="' + Bordado.data.color_bg + '"></div><label for="color_picker">Tomar color:</label><span class="input-group-addon"><input name="color_picker" type="checkbox" aria-label="animar"></span><br><div class="form-group"><button class="btn btn-info" name="toggle-malla">Ocultar malla</button><hr><button class="btn btn-success" name="save-frame" data-toggle="tooltip" data-title="Sólo local"><small>Generar PNG</small></button><div class="save-frame-message"></div></div></form></div></aside>'), 
         $bordado_html.hide();
         var dialog_size = Bordado.data.columnas >= 50 ? "60vw" : Bordado.data.columnas >= 30 ? "50vw" : "35vw";
         BootstrapDialog.show({
@@ -366,7 +366,8 @@ PuntoCSS.prototype = {
         if (!this.registrados) {
             var Bordado = this;
             $color_hilo = $("[name=cambiar_color_hilo]"), $ancho_hilo = $("[name=cambiar_ancho_hilo]"), 
-            $select_punto = $("[name=cambiar_punto]"), $(this.btn_save).unbind("click").on("click", function(e) {
+            $select_punto = $("[name=cambiar_punto]"), $('[data-toggle="tooltip"]').tooltip(), 
+            $(this.btn_save).unbind("click").on("click", function(e) {
                 e.preventDefault(), Bordado.data.punto_base = $select_punto.val(), Bordado.guardar($("#bordado").val());
             });
             var can_drag = !1;
@@ -585,7 +586,7 @@ PuntoCSS.prototype = {
               default:
                 return;
             }
-        } else console.info("No hay punto para mover! Haz click en la grilla.s");
+        } else console.info("No hay punto para mover! Haz click en la grilla.");
     },
     coordenadas: function() {
         return this.data.coords.map(function(e) {

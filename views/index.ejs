@@ -18,15 +18,18 @@
 	<script>
 	$(document).ready(function() {
 
-		/**
-		 * List works
-		 */
+		// Create new bordado object
 		var bordado = new Bordado();
+		
+		// Show list of bordados
+		// TODO: option to choose where to load list
 		bordado.listar();
 
+		// Setup form for creating new bordados
 		$('form').submit(function(e){
 			e.preventDefault();
 
+			// Get new bordado data
 			var bordado_data = {
 				bordado: $('#bordado').val() ||
 					'Bordado ' + Math.floor(Math.random(0, 1000) * 1000),
@@ -41,13 +44,14 @@
 				coords: []
 			}
 
-			var bordado_nuevo = new Bordado();
-			bordado_nuevo.grilla({
+			// Setup grid (the "fabric")
+			bordado.grilla({
 				data : bordado_data,
 				mostrar	: true,
-				animar	: { speed: $('input[name=velocidad]').val() || bordado_nuevo.animar.speed },
-				gif: $('input[name=velocidad-gif]').val() || bordado_nuevo.gif
+				animar	: { speed: $('input[name=velocidad]').val() || bordado.animar.speed },
+				gif: $('input[name=velocidad-gif]').val() || bordado.gif
 			});
+			
 		});
 
 	});

@@ -18,26 +18,6 @@ PuntoCSS.prototype = {
 		
 		this.css.tipo_punto = tipo_punto || this.css.tipo_punto;
 		
-		/**
-			
-			width: 3px;
-			height: 30px;
-			left: 7px;
-			bottom: -6px;
-			
-			left: 11px;
-			bottom: -6px;
-			height: 35px;
-			
-			///////////
-			
-		    width: 11px;
-			height: 30px;
-			left: 7px;
-    		bottom: -6px;
-			
-		 */
-		
 		var 
 		css_cruz = { 
 			background: this.css.color_hilo, 
