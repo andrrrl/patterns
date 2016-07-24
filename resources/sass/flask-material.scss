@@ -1,0 +1,162 @@
+/**
+ *
+ *  Flask icon
+ *  Usage: see views/css.ejs
+ * 
+ */
+
+
+/**
+ * Variables
+ * 
+ */
+$maincolor: #0b2b3c;
+$maincoloralpha: rgba(11, 43, 60, 0.63);
+
+$materialbg: #03a9f4;
+$materialfg: #f5f5f5;
+
+/**
+ * Generar borders
+ * @method border
+ * @param  {[type]} $borders: ''            [description]
+ * @param  {[type]} $width:   4             [description]
+ * @param  {[type]} $color:   $maincolor    [description]
+ * @param  {[type]} $radius:  50            [description]
+ * @return {[type]}           [description]
+ */
+@mixin border( $borders: '', $width: 4, $color: $maincolor, $radius: 50) {
+	@if $borders == '' {
+		border-style: solid;
+		border-width: $width + px;
+		border-color: $color;
+	} 
+	@if $borders != '' && type-of($borders) != 'list' {
+		$borders: ($borders);
+		@each $border in $borders {
+			$position: $border + '-';
+			border-#{$position}style: solid;
+			border-#{$position}width: $width + px;
+			border-#{$position}color: $color;
+		}
+	}
+	@if $radius > 0 {
+		border-radius: $radius + px;
+	}
+}
+
+/**
+ * Set size of container
+ * @method size
+ * @param  {[type]} $width:  100           [description]
+ * @param  {[type]} $height: 100           [description]
+ * @param  {[type]} $unit:   px            [description]
+ * @return {[type]}          [description]
+ */
+@mixin size( $width: 100, $height: 100, $unit: px ) {
+	width: $width + $unit;
+	height: $height + $unit;
+}
+
+/**
+ * Set some transforms
+ * @method transforms
+ * @param  {[type]}   $deg   [description]
+ * @param  {[type]}   $box   [description]
+ * @param  {[type]}   $pers: 0             [description]
+ * @return {[type]}          [description]
+ */
+@mixin transforms( $deg, $box, $pers: 0 ) {
+	transform-style: preserve-3d;
+	transform: perspective( $pers + em ) rotateX($deg + deg);
+	box-shadow: 0 0 $box + px #000;
+}
+
+
+/**
+ * Set positioning
+ * @method positioning
+ * @param  {[type]}    $top:  100           [description]
+ * @param  {[type]}    $left: 0             [description]
+ * @param  {[type]}    $type: relative      [description]
+ * @return {[type]}           [description]
+ */
+@mixin positioning( $top: 100, $left: 0, $type: relative ) {
+	position: $type;
+	top: $top + px;
+	left: $left + px;
+}
+
+.flask-material {
+	
+	width: auto;
+    height: 100%;
+	padding: 20%;
+	
+	.material-container {
+		
+		width: auto;
+		height: 100%;
+		@include positioning(0);
+		background: $materialfg;
+		border: 1px solid transparent;
+		margin: auto;
+		overflow: hidden;
+
+		.cap {
+			@include size(100, 100, '%');
+			@include border(top, 8, $materialbg, 0);
+			@include positioning(12, 15, absolute);
+			margin: auto;
+		}
+
+		.body {
+			@include size(54, 66, '%');
+		    border-radius: 0px 0px 8px 8px;
+			@include border((right,bottom,left), 8, $materialbg, 0);
+			@include positioning(0, 0, absolute);
+		    margin: auto;
+		}
+		
+		.liquid-container {
+			max-width: 54px;
+			max-height: 40px;
+			width: 100%;
+			height: 100%;
+			@include positioning(-5, 0, absolute);
+			overflow: hidden;
+		}
+		.liquid-left, .liquid-right {
+			@include size(82, 82, '%');
+			@include positioning(0, 16, absolute);
+		    border-radius: 25%;
+			background: $materialbg;
+			margin: auto;
+		    z-index: 0;
+		}
+		.liquid-left {
+			left: -23%;
+			top: 34%;
+		}
+		.liquid-right {
+			background: $materialfg;
+			top: -43%;
+    		left: 2%;
+		}
+		.liquid-bottom {
+			@include size(41, 50, '%');
+			background: $materialbg;
+			@include positioning(0, 0, absolute);
+			margin: auto;
+		}
+		
+		.label {
+			@include positioning(0, 0);
+			color: $materialfg;
+			font-size: 3.5rem;
+			padding: 0;
+			margin: auto;
+		}
+		
+	}
+}

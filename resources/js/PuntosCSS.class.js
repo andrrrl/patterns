@@ -30,10 +30,72 @@ PuntoCSS.prototype = {
 			background: this.css.color_hilo, 
 			width: '100%',
 			height: '100%'
-		}
-		
+		},
+		css_linea = {
+			background: this.css.color_hilo
+		},
+		css_linea_arriba = css_linea_abajo = $.extend( 
+			{},
+			css_linea, 
+			{ height: this.css.ancho_hilo }
+		),
+		css_linea_izquierda = css_linea_derecha = css_linea_horizontal = css_linea_vertical = $.extend(
+			{},
+			css_linea,
+			{ width: this.css.ancho_hilo }
+		),
+		css_linea_horizontal = $.extend(
+			{},
+			css_linea,
+			{ height: this.css.ancho_hilo }
+		),
+		css_linea_vertical = $.extend(
+			{},
+			css_linea,
+			{ width: this.css.ancho_hilo }
+		);
+
 		this.puntos = {
-			
+			linea_arriba:
+				$(this.css.start_tag + this.css.end_tag)
+					.addClass(this.css.tipo_punto)
+					.css( css_linea_arriba ),
+					
+			linea_abajo:
+				$(this.css.start_tag + this.css.end_tag)
+					.addClass(this.css.tipo_punto)
+					.css( css_linea_abajo ),
+					
+			linea_izquierda:
+				$(this.css.start_tag + this.css.end_tag)
+					.addClass(this.css.tipo_punto)
+					.css( css_linea_izquierda ),
+					
+			linea_derecha:
+				$(this.css.start_tag + this.css.end_tag)
+					.addClass(this.css.tipo_punto)
+					.css( css_linea_derecha ),
+					
+			linea_horizontal:
+				$(this.css.start_tag + this.css.end_tag)
+					.addClass(this.css.tipo_punto)
+					.css( css_linea_horizontal ),
+					
+			linea_vertical:
+				$(this.css.start_tag + this.css.end_tag)
+					.addClass(this.css.tipo_punto)
+					.css( css_linea_vertical ),
+					
+			diagonal1: 
+				$(this.css.start_tag + this.css.end_tag)
+					.addClass(this.css.tipo_punto)
+					.css( css_cruz ),
+					
+			diagonal2: 
+				$(this.css.start_tag + this.css.end_tag)
+					.addClass(this.css.tipo_punto)
+					.css( css_cruz ),
+					
 			cruz: 
 				$(this.css.start_tag + this.css.end_tag)
 					.addClass(this.css.tipo_punto + 1)
@@ -47,7 +109,24 @@ PuntoCSS.prototype = {
 			cuadrado: 
 				$(this.css.start_tag + this.css.end_tag)
 					.addClass(this.css.tipo_punto + 1)
-					.css( css_cuadrado )
+					.css( css_cuadrado ),
+			
+			// TODO: complex css stitch		
+			// frasco: 
+			// 	$('<div class="flask-material row">'+
+			// 		'<div class="material-container">'+
+			// 			'<div class="liquid-bottom"></div>'+
+			// 			'<div class="liquid-container">'+
+			// 				'<div class="liquid-left"></div>'+
+			// 				'<div class="liquid-right"></div>'+
+			// 			'</div>'+
+			// 			'<div class="cap"></div>'+
+			// 			'<div class="body">'+
+			// 				'<div class="label">'+
+			// 				'<span>2</span>'+
+			// 			'</div>'+
+			// 		'</div>'+
+			// 	'</div>')
 				
 		}
 		

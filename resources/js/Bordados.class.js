@@ -479,19 +479,21 @@ Bordado.prototype = {
 
 		$bordado_html = $(Bordado.bordado_html);
 
-		$select_punto = $('<select class="form-control" name="punto" id="punto"></select>');
-		// $select_punto.val(Bordado.puntos.svg.tipo_punto);
-		$select_punto.on('change', function() {
-			// Bordado.puntos.svg.tipo_punto = $(this).val();
-		});
-
-		var select_cambiar_punto = '<select class="form-control" name="cambiar_punto" id="punto">';
+		var select_cambiar_punto = '<ul class="dropdown-menu" name="cambiar_punto" id="punto">';
 
 		$.each(Bordado.puntos.verPuntos(), function(punto, svg) {
-			select_cambiar_punto += '<option value="' + punto + '"' + ( punto == Bordado.data.punto_base ? ' selected' : '' ) + '>' + punto.replace(/\_/g, ' ') + '</option>';
+			select_cambiar_punto += 
+			'<li value="' + punto + '"' + '>' + 
+				'<a href="#punto" data-punto="' + punto + '">' +
+					punto.replace(/\_/g, ' ') +
+				'</a>' +
+				Bordado.puntos.generarPunto( punto ).html() +
+			'</li>';
 		});
 
-		select_cambiar_punto += '</select>';
+		select_cambiar_punto += '</ul>';
+
+		var punto_actual = Bordado.puntos.generarPunto( Bordado.data.punto_base );
 
 		// Opciones (guardar, etc)
 		$form = $('<form name="guardar" class="form-inline">' +
@@ -515,10 +517,18 @@ Bordado.prototype = {
 			'<aside class="container opciones-ventana alert alert-info">' +
 				'<div class="row">' +
 					'<form name="opciones" class="form">' +
-						'<div class="form-group">' +
-							'<label for="cambiar_punto">Punto:</label>' +
+						'<div class="btn-group">' +
+				  			'<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+					    		'Punto <span class="caret"></span>' +
+							'</button>' +
 							select_cambiar_punto +
 						'</div>' +
+						'<br>' +
+						'<span id="punto-actual-texto">' + Bordado.data.punto_base + '</span>' +
+						'<div class="text-center">' +
+							'<div id="punto-actual" class="celda_muestra" data-punto-actual=""></div>' +
+						'</div>' +
+						'<hr>' +
 						'<div class="form-group">' +
 							'<label for="ancho_hilo">Grosor de hilo:</label>' +
 							'<input class="form-control" type="number" name="cambiar_ancho_hilo" value="' + Bordado.data.ancho_hilo + '" min="1" max="20" step="1">' +
@@ -675,16 +685,18 @@ Bordado.prototype = {
 
 			$color_hilo 	= $('[name=cambiar_color_hilo]');
 			$ancho_hilo 	= $('[name=cambiar_ancho_hilo]');
-			$select_punto 	= $('[name=cambiar_punto]');
+			$punto_actual 	= $('#punto-actual');
 			
 			$('[data-toggle="tooltip"]').tooltip();
 
 			// Botón Guardar
 			$(this.btn_save).unbind('click').on('click', function(e) {
 				e.preventDefault();
-				Bordado.data.punto_base = $select_punto.val();
+				Bordado.data.punto_base = $punto_actual.data('punto-actual');
 				Bordado.guardar($('#bordado').val());
 			});
+			
+			$('#punto-actual').html( Bordado.puntos.generarPunto( Bordado.data.punto_base) );
 
 			/**
 			 * Dibujar/pintar con el mouse!
@@ -716,7 +728,7 @@ Bordado.prototype = {
 
 							// Tipo de Punto (css)...
 							var punto_css = Bordado.puntos.generarPunto(
-								$select_punto.val() || Bordado.punto_base
+								$('#punto-actual').text() || Bordado.data.punto_base
 							);
 
 							// (1) Agregar nuevo punto SVG a la Grilla
@@ -730,7 +742,7 @@ Bordado.prototype = {
 										x: xy[0],
 										y: xy[1]
 									},
-									punto: $select_punto.val() || Bordado.punto_base,
+									punto: $('#punto-actual').text() || Bordado.data.punto_base,
 									color_hilo: $color_hilo.val(),
 									ancho_hilo: $ancho_hilo.val()
 								});
@@ -798,9 +810,9 @@ Bordado.prototype = {
 					
 					// Tipo de Punto (css)...
 					var punto_css = Bordado.puntos.generarPunto(
-						$select_punto.val() || Bordado.punto_base
+						$('#punto-actual').text() || Bordado.data.punto_base
 					);
-					// console.log($select_punto.val() || Bordado.punto_base);
+					// console.log($('#punto-actual').text() || Bordado.data.punto_base);
 					console.log(punto_css);
 
 					// Coordenada
@@ -816,7 +828,7 @@ Bordado.prototype = {
 							x: xy[0],
 							y: xy[1]
 						},
-						punto: $select_punto.val() || Bordado.punto_base,
+						punto: $('#punto-actual').text() || Bordado.data.punto_base,
 						color_hilo: $color_hilo.val(),
 						ancho_hilo: $ancho_hilo.val()
 					});
@@ -900,8 +912,20 @@ Bordado.prototype = {
 			// Modificar Canevá dentro del Dialog
 			//
 			// Tipo de Punto
-			$('[name=punto],[name=cambiar_punto]').on('change', function() {
-				Bordado.punto_base = $(this).val();
+			// $('[name=punto],[name=cambiar_punto]').on('change', function() {
+			// 	Bordado.data.punto_base = $(this).val();
+			// });
+			
+			$('#punto a').on('click', function(e) {
+				e.preventDefault();
+				
+				Bordado.data.punto_base = $(this).data('punto');
+				
+				var muestra_punto = Bordado.puntos.generarPunto( Bordado.data.punto_base );
+				$('#punto-actual-texto').html($(this).text());
+				$('#punto-actual').data('punto-actual', $(this).data('punto'));
+				$('#punto-actual').html(muestra_punto);
+				console.log($('#punto-actual'));
 			});
 
 			// Grosor de Hilo:
@@ -909,7 +933,6 @@ Bordado.prototype = {
 				.on('change', function(e){
 					e.preventDefault();
 					Bordado.data.ancho_hilo = $(this).val();
-					// Bordado.puntos.svg.ancho_hilo = $(this).val();
 					console.log('ancho_hilo (grosor): ' +$(this).val());
 			});
 
@@ -1014,7 +1037,7 @@ Bordado.prototype = {
 
 		if ($('.clicked').length) {
 
-			var punto = this.puntos.generarPunto($select_punto.val() || this.data.punto_base),
+			var punto = this.puntos.generarPunto($('#punto-actual').text() || this.data.punto_base),
 				coord = $('.clicked').attr('rel').split(','),
 				celda = '';
 
@@ -1034,7 +1057,7 @@ Bordado.prototype = {
 									x: coord[0],
 									y: (parseInt(coord[1]) - 1)
 								},
-								punto: $select_punto.val() || Bordado.punto_base,
+								punto: $('#punto-actual').text() || Bordado.data.punto_base,
 								color_hilo: $('[name=cambiar_color_hilo]').val() || Bordado.data.color_hilo,
 								ancho_hilo:  $('[name=cambiar_ancho_hilo]').val() || Bordado.data.ancho_hilo
 							});
@@ -1059,7 +1082,7 @@ Bordado.prototype = {
 									x: (parseInt(coord[0]) + 1),
 									y: coord[1]
 								},
-								punto: $select_punto.val() || Bordado.punto_base,
+								punto: $('#punto-actual').text() || Bordado.data.punto_base,
 								color_hilo: $('[name=cambiar_color_hilo]').val() || Bordado.data.color_hilo,
 								ancho_hilo:  $('[name=cambiar_ancho_hilo]').val() || Bordado.data.ancho_hilo
 							});
@@ -1084,7 +1107,7 @@ Bordado.prototype = {
 									x: coord[0],
 									y: (parseInt(coord[1]) + 1)
 								},
-								punto: $select_punto.val() || Bordado.punto_base,
+								punto: $('#punto-actual').text() || Bordado.data.punto_base,
 								color_hilo: $('[name=cambiar_color_hilo]').val() || Bordado.data.color_hilo,
 								ancho_hilo:  $('[name=cambiar_ancho_hilo]').val() || Bordado.data.ancho_hilo
 							});
@@ -1109,7 +1132,7 @@ Bordado.prototype = {
 									x: (parseInt(coord[0]) - 1),
 									y: coord[1]
 								},
-								punto: $select_punto.val() || Bordado.punto_base,
+								punto: $('#punto-actual').text() || Bordado.data.punto_base,
 								color_hilo: $('[name=cambiar_color_hilo]').val() || Bordado.data.color_hilo,
 								ancho_hilo:  $('[name=cambiar_ancho_hilo]').val() || Bordado.data.ancho_hilo
 							});

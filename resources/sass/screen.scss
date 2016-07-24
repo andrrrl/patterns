@@ -16,7 +16,7 @@
 	font-size: 7px
 }
 
-.celda {
+.celda, .celda_muestra {
 	width: 15px;
 	height: 15px;
 	border-left: 1px solid #CCC;
@@ -25,22 +25,33 @@
 	cursor: pointer;
 	line-height: 0px;
 	position: relative;
+	
+	&:hover {
+		background: #999;
+	}
 }
-.celda:hover {
-	background: #999;
-}
+
 .modal-footer {
 	text-align: center;
 }
 
 .opciones-ventana {
 	display: none;
-	width: 150px;
+	width: 160px;
     float: left;
     position: absolute;
     top: 60px;
-    left: -155px;
+    left: -165px;
 	padding: 20px;
+	
+	#punto-actual {
+		width: 16px;
+		height: 16px;
+		margin: auto;
+		border: 1px solid #ccc;
+	    left: 65px;
+	}
+	
 }
 .bootstrap-dialog-message {
 	padding: 20px;

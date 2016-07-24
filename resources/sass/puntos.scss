@@ -6,6 +6,8 @@
  * 
  */
 
+@import "flask-material";
+
 @mixin cruz($w, $h, $top, $left, $deg: 0, $color: transparent) {
 		
 	background: $color;
@@ -24,9 +26,44 @@
 }
 
 
-.cruz1 {
-	@include cruz(5px, 155%, -5%, 98%, 45);	
+@mixin linea($w: 100%, $h: 2px, $top: initial, $right: initial, $bottom: initial, $left: initial, $pos: absolute) {
+	width: $w;
+	height: $h;
+	
+	border-radius: 25%;
+	
+	position: $pos;
+    top: $top;
+	right: $right;
+	bottom: $bottom;
+	left: $left;
 }
-.cruz2 {
-	@include cruz(5px, 155%, 107%, 100%, 135);	
+
+
+.cruz1, .diagonal1 {
+	@include cruz(5px, 155%, -5%, 96%, 45);	
+}
+.cruz2, .diagonal2 {
+	@include cruz(5px, 155%, 107%, 96%, 135);	
+}
+
+.linea_arriba {
+	@include linea(100%, 2px, 0);
+}
+.linea_abajo {
+	@include linea(100%, 2px, null, null, 0);
+}
+.linea_izquierda {
+	@include linea(2px, 100%, null, null, null, 0);
+}
+.linea_derecha {
+	@include linea(2px, 100%, null, 0, null, null);
+}
+.linea_horizontal {
+	@include linea(100%, 2px, 41%, null, 41%, null);
+	margin: auto;
+}
+.linea_vertical {
+	@include linea(2px, 100%, null, null, null, null, relative);
+	margin: auto;
 }
