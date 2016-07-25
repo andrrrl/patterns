@@ -8,20 +8,21 @@
 
 @import "flask-material";
 
-@mixin cruz($w, $h, $top, $left, $deg: 0, $color: transparent) {
+@mixin cruz($w, $h, $left, $top, $deg: 0, $color: transparent) {
 		
 	background: $color;
 	height: $h;
 	width: $w;
-	border-radius: round($w / 2);
+	border-radius: 25%;
     border: 1px solid rgba($color, 0.5);
 
-	transform: rotateZ($deg + deg);
-	transform-origin: top;
+	transform: translate($left, $top) rotateZ($deg + deg);
+	transform-origin: center;
 	
 	position: absolute;
-	top: $top;
-	left: $left;
+	top: 50%;
+	left: 49%;
+	
     z-index: 1;
 }
 
@@ -30,7 +31,7 @@
 	width: $w;
 	height: $h;
 	
-	border-radius: 25%;
+	border-radius: 40%;
 	
 	position: $pos;
     top: $top;
@@ -50,10 +51,10 @@
 }
 
 .cruz1, .diagonal1 {
-	@include cruz(5px, 155%, -5%, 96%, 45);	
+	@include cruz(5px, 155%, -50%, -50%, 45);	
 }
 .cruz2, .diagonal2 {
-	@include cruz(5px, 155%, 107%, 96%, 135);	
+	@include cruz(5px, 155%, -50%, -50%, 135);	
 }
 
 .linea_arriba {
