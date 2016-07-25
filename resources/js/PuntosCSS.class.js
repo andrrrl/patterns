@@ -53,6 +53,15 @@ PuntoCSS.prototype = {
 			{},
 			css_linea,
 			{ width: this.css.ancho_hilo }
+		),
+		css_circulo = $.extend(
+			{},
+			css_cuadrado,
+			{ 
+				width: this.css.ancho_hilo, 
+				height: this.css.ancho_hilo, 
+				borderRadius: '50%' 
+			} 
 		);
 
 		this.puntos = {
@@ -108,8 +117,13 @@ PuntoCSS.prototype = {
 					
 			cuadrado: 
 				$(this.css.start_tag + this.css.end_tag)
-					.addClass(this.css.tipo_punto + 1)
+					.addClass(this.css.tipo_punto)
 					.css( css_cuadrado ),
+			
+			circulo:
+				$(this.css.start_tag + this.css.end_tag)
+					.addClass(this.css.tipo_punto)
+					.css( css_circulo ),
 			
 			// TODO: complex css stitch		
 			// frasco: 

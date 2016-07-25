@@ -487,7 +487,6 @@ Bordado.prototype = {
 				'<a href="#punto" data-punto="' + punto + '">' +
 					punto.replace(/\_/g, ' ') +
 				'</a>' +
-				Bordado.puntos.generarPunto( punto ).html() +
 			'</li>';
 		});
 

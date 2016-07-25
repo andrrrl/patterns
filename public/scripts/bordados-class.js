@@ -74,6 +74,10 @@ PuntoCSS.prototype = {
             height: this.css.ancho_hilo
         }), css_linea_vertical = $.extend({}, css_linea, {
             width: this.css.ancho_hilo
+        }), css_circulo = $.extend({}, css_cuadrado, {
+            width: this.css.ancho_hilo,
+            height: this.css.ancho_hilo,
+            borderRadius: "50%"
         });
         return this.puntos = {
             linea_arriba: $(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto).css(css_linea_arriba),
@@ -85,7 +89,8 @@ PuntoCSS.prototype = {
             diagonal1: $(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto).css(css_cruz),
             diagonal2: $(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto).css(css_cruz),
             cruz: $(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto + 1).css(css_cruz).add($(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto + 2).css(css_cruz)),
-            cuadrado: $(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto + 1).css(css_cuadrado)
+            cuadrado: $(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto).css(css_cuadrado),
+            circulo: $(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto).css(css_circulo)
         }, tipo_punto === !1 ? this.puntos : this.puntos[tipo_punto] || this.puntos.cruz;
     },
     verPuntos: function() {
@@ -323,7 +328,7 @@ PuntoCSS.prototype = {
         $bordado_html = $(Bordado.bordado_html);
         var select_cambiar_punto = '<ul class="dropdown-menu" name="cambiar_punto" id="punto">';
         $.each(Bordado.puntos.verPuntos(), function(punto, svg) {
-            select_cambiar_punto += '<li value="' + punto + '"><a href="#punto" data-punto="' + punto + '">' + punto.replace(/\_/g, " ") + "</a>" + Bordado.puntos.generarPunto(punto).html() + "</li>";
+            select_cambiar_punto += '<li value="' + punto + '"><a href="#punto" data-punto="' + punto + '">' + punto.replace(/\_/g, " ") + "</a></li>";
         }), select_cambiar_punto += "</ul>";
         Bordado.puntos.generarPunto(Bordado.data.punto_base);
         $form = $('<form name="guardar" class="form-inline">' + (Bordado.data.id ? "" : '<input type="text" class="form-control" name="bordado" id="bordado" value="' + $("#bordado-nuevo").val() + '" placeholder="Nombre de tu bordado">') + '<button id="guardar-bordado" class="btn btn-success" name="guardar" data-save-text="Guardar" data-saving-text="Guardando..." data-saved-text="Guardado!" autocomplete="off">Guardar</button> <button id="limpiar" class="btn btn-danger">Limpiar</button></form><aside class="container opciones-ventana alert alert-info"><div class="row"><form name="opciones" class="form"><div class="btn-group"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Punto <span class="caret"></span></button>' + select_cambiar_punto + '</div><br><span id="punto-actual-texto">' + Bordado.data.punto_base + '</span><div class="text-center"><div id="punto-actual" class="celda_muestra" data-punto-actual=""></div></div><hr><div class="form-group"><label for="ancho_hilo">Grosor de hilo:</label><input class="form-control" type="number" name="cambiar_ancho_hilo" value="' + Bordado.data.ancho_hilo + '" min="1" max="20" step="1"></div><!--div class="form-group"><label for="ancho_punto">Ancho de punto:</label><input class="form-control" type="number" name="cambiar_ancho_punto" value="' + Bordado.data.ancho_punto + '" min="1" max="30" step="1"></div--><div class="form-group"><label for="color_hilo">Color de hilo:</label><input class="form-control" type="color" name="cambiar_color_hilo" value="' + Bordado.data.color_hilo + '"></div><div class="form-group"><label for="color_bg">Color de tela:</label><input class="form-control" type="color" name="cambiar_color_bg" value="' + Bordado.data.color_bg + '"></div><label for="color_picker">Tomar color:</label><span class="input-group-addon"><input name="color_picker" type="checkbox" aria-label="animar"></span><br><div class="form-group"><button class="btn btn-info" name="toggle-malla">Ocultar malla</button><hr><button class="btn btn-success" name="save-frame" data-toggle="tooltip" data-title="Sólo local"><small>Generar PNG</small></button><div class="save-frame-message"></div></div></form></div></aside>'), 
