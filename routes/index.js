@@ -154,6 +154,9 @@ var uploading = multer({
 router.route('/bordados/renders/save')
 	.post(function(req, res) {
 		
+		if ( typeof process.env.OPENSHIFT_NODEJS_IP != 'undefined' ) 
+			return;
+		
 		var id = req.body.id || '';
 		var name  = req.body.bordado;
 		var image = new Buffer(req.body.image, 'base64');
