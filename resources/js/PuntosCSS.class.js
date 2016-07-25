@@ -28,11 +28,13 @@ PuntoCSS.prototype = {
 		},
 		css_cuadrado = {
 			background: this.css.color_hilo, 
+			border: '1px solid rgba(100,100,100,0.25)',
 			width: '100%',
 			height: '100%'
 		},
 		css_linea = {
-			background: this.css.color_hilo
+			background: this.css.color_hilo,
+			border: '1px solid rgba(100,100,100,0.25)'
 		},
 		css_linea_arriba = css_linea_abajo = $.extend( 
 			{},

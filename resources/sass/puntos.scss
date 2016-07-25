@@ -13,8 +13,9 @@
 	background: $color;
 	height: $h;
 	width: $w;
-	border-radius: 25%;
-    border: 1px solid rgba($color, 0.5);
+	
+	border-radius: 35%;
+	border: 1px solid rgba($color, 0.5);
 
 	transform: translate($left, $top) rotateZ($deg + deg);
 	transform-origin: center;
@@ -32,18 +33,22 @@
 	height: $h;
 	
 	border-radius: 40%;
+	border: 1px solid rgba(transparent, 0.5);
 	
 	position: $pos;
     top: $top;
 	right: $right;
 	bottom: $bottom;
 	left: $left;
+	z-index: 1;
 }
 
 @mixin circulo($w, $h, $r, $unit: '%') {
 	width: $w + unquote($unit);
 	height: $h + unquote($unit);
 	border-radius: $r + unquote($unit);
+	border: 1px solid rgba(transparent, 0.5);
+	
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -58,7 +63,7 @@
 }
 
 .linea_arriba {
-	@include linea(100%, 2px, 0);
+	@include linea(110%, 2px, 0);
 }
 .linea_abajo {
 	@include linea(100%, 2px, null, null, 0);

@@ -779,23 +779,44 @@ Bordado.prototype = {
 							$('input[name=cambiar_color_hilo]').val( $('input[name=color_bg]').val() );
 							return;
 						}
+						
+						var hexcolor = '';
 
 						// Take color from SVG
-						var hexcolor = '';
 						$('input[name=cambiar_color_hilo]').val( function(){
-							self.find('svg').children()
-								.prop('style').stroke
-								.replace(/([a-z\(\)\,]*)/g,'')
-								.split(' ')
-								.forEach(function(color){
-									if ( parseInt(color).toString(16).length == 1 ){
-										hexcolor += '0' + parseInt(color).toString(16);
-									} else {
-										hexcolor += parseInt(color).toString(16);
-									}
-								});
-								return '#' + hexcolor;
-							});
+							
+							// Take color from CSS
+							if ( self.css('background').match(/(rgb)\((.*)\)/g).length ) {
+								var rgb = self.find('div').css('background')
+									.match(/(rgb)\((.*)\)/g);
+									rgb = rgb[0]
+									.replace(/([a-z\(\)\,]*)/g,'')
+									.split(' ')
+									.forEach(function(color){
+										if ( parseInt(color).toString(16).length == 1 ){
+											hexcolor += '0' + parseInt(color).toString(16);
+										} else {
+											hexcolor += parseInt(color).toString(16);
+										}
+									});
+									return '#' + hexcolor;;
+							}
+							
+							if ( self.find('svg').length ) {
+								self.find('svg').children()
+									.prop('style').stroke
+									.replace(/([a-z\(\)\,]*)/g,'')
+									.split(' ')
+									.forEach(function(color){
+										if ( parseInt(color).toString(16).length == 1 ){
+											hexcolor += '0' + parseInt(color).toString(16);
+										} else {
+											hexcolor += parseInt(color).toString(16);
+										}
+									});
+									return '#' + hexcolor;
+							}
+						});
 						return;
 					}
 

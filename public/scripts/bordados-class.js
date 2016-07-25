@@ -62,10 +62,12 @@ PuntoCSS.prototype = {
             borderRadius: this.css.ancho_hilo
         }, css_cuadrado = {
             background: this.css.color_hilo,
+            border: "1px solid rgba(100,100,100,0.25)",
             width: "100%",
             height: "100%"
         }, css_linea = {
-            background: this.css.color_hilo
+            background: this.css.color_hilo,
+            border: "1px solid rgba(100,100,100,0.25)"
         }, css_linea_arriba = css_linea_abajo = $.extend({}, css_linea, {
             height: this.css.ancho_hilo
         }), css_linea_izquierda = css_linea_derecha = css_linea_horizontal = css_linea_vertical = $.extend({}, css_linea, {
@@ -428,9 +430,15 @@ PuntoCSS.prototype = {
                     if ($("input[name=color_picker]").prop("checked", !1), " " == $(this).text()) return void $("input[name=cambiar_color_hilo]").val($("input[name=color_bg]").val());
                     var hexcolor = "";
                     return void $("input[name=cambiar_color_hilo]").val(function() {
-                        return self.find("svg").children().prop("style").stroke.replace(/([a-z\(\)\,]*)/g, "").split(" ").forEach(function(color) {
+                        if (self.css("background").match(/(rgb)\((.*)\)/g).length) {
+                            var rgb = self.find("div").css("background").match(/(rgb)\((.*)\)/g);
+                            return rgb = rgb[0].replace(/([a-z\(\)\,]*)/g, "").split(" ").forEach(function(color) {
+                                hexcolor += 1 == parseInt(color).toString(16).length ? "0" + parseInt(color).toString(16) : parseInt(color).toString(16);
+                            }), "#" + hexcolor;
+                        }
+                        return self.find("svg").length ? (self.find("svg").children().prop("style").stroke.replace(/([a-z\(\)\,]*)/g, "").split(" ").forEach(function(color) {
                             hexcolor += 1 == parseInt(color).toString(16).length ? "0" + parseInt(color).toString(16) : parseInt(color).toString(16);
-                        }), "#" + hexcolor;
+                        }), "#" + hexcolor) : void 0;
                     });
                 }
                 $(".celda").removeClass("clicked"), Bordado.puntos.colorHilo($color_hilo.val()), 
