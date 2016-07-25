@@ -154,25 +154,34 @@ var uploading = multer({
 router.route('/bordados/renders/save')
 	.post(function(req, res) {
 		
-		var id = req.body.id;
+		var id = req.body.id || '';
 		var name  = req.body.bordado;
 		var image = new Buffer(req.body.image, 'base64');
 		
-		if ( typeof process.env.OPENSHIFT_NODEJS_IP == 'undefined' ) {
-			mkdirp('public/renders/' + id, function(err){
-				fs.writeFile('public/renders/' + name + '-' + id + '/' + name + '.png', image, function(err) {
-				    if (err) {
-						res.json({ message: 'err' });
-						res.end();
-				    } else {
-						res.json({ message: 'ok' });
-						res.end();
-					}
+		mkdirp('public/renders/' + id, function(err){
+			var filename = 'public/renders/' + id + '/' + name + '.png';
+			fs.stat(filename, function(err, stats) {
+				if ( typeof stats == 'undefined' ) {
+					fs.writeFile(filename, image, function(err) {
+					    if (err) {
+							res.json({ message: 'err' });
+							res.end();
+					    } else {
+							console.log('public/renders/' + id + '/' + name + '.png');
+							res.json({ message: 'ok' });
+							res.end();
+						}
 
-				});
+					});
+				} else {
+					return;
+					res.json({ message: 'ok' });
+					res.end();
+				}
 			});
-		}
-		
+			
+		});
+		return;
 	});
 
 module.exports = router;

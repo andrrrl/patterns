@@ -380,6 +380,15 @@ Bordado.prototype = {
 							Bordado.animar.gif = false;
 						}
 					});
+					
+					$('input[name=toggle-malla]').on('click', function(){
+						console.log($('input[name=toggle-malla]').prop('checked'));
+						if ( $('input[name=toggle-malla]').prop('checked') === false ) {
+							Bordado.malla = false;
+						} else {
+							Bordado.malla = true;
+						}
+					});
 
 					console.info('[OK] $.ajax: Lista de bordados cargada.');
 				} else {
@@ -589,10 +598,17 @@ Bordado.prototype = {
 					width: (Bordado.width + 50) + 'px'
 				});
 
-				$('.celda').removeClass('clicked').css({
-					borderLeft: '1px solid ' + Bordado.data.color_malla,
-					borderBottom: '1px solid ' + Bordado.data.color_malla
-				});
+				if ( Bordado.malla === false ) {
+					$('.celda').removeClass('clicked').css({
+						borderLeft: 'transparent',
+						borderBottom: 'transparent'
+					});
+				} else {
+					$('.celda').removeClass('clicked').css({
+						borderLeft: '1px solid ' + Bordado.data.color_malla,
+						borderBottom: '1px solid ' + Bordado.data.color_malla
+					});
+				}
                 
 				$('.caneva').css({
 					borderRight: '1px solid ' + Bordado.data.color_malla,

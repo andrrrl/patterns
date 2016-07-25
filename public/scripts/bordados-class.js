@@ -295,6 +295,8 @@ PuntoCSS.prototype = {
                     }), $("input[name=gif]").on("click", function() {
                         $("input[name=velocidad-gif]").prop("disabled", !$("input[name=velocidad-gif]").prop("disabled")), 
                         $("input[name=velocidad-gif]").prop("disabled") === !0 && (Bordado.animar.gif = !1);
+                    }), $("input[name=toggle-malla]").on("click", function() {
+                        console.log($("input[name=toggle-malla]").prop("checked")), $("input[name=toggle-malla]").prop("checked") === !1 ? Bordado.malla = !1 : Bordado.malla = !0;
                     }), console.info("[OK] $.ajax: Lista de bordados cargada.");
                 } else $("#lista-bordados-borrar").html('<li class="list-group-item">No hay bordados guardados</li>'), 
                 $("button[name=cargar]").hide(), console.info("[INFO] $.ajax: No hay bordados para listar.");
@@ -351,7 +353,10 @@ PuntoCSS.prototype = {
             onshown: function(dialogRef) {
                 if ($(".modal-dialog .modal-content").css({
                     width: Bordado.width + 50 + "px"
-                }), $(".celda").removeClass("clicked").css({
+                }), Bordado.malla === !1 ? $(".celda").removeClass("clicked").css({
+                    borderLeft: "transparent",
+                    borderBottom: "transparent"
+                }) : $(".celda").removeClass("clicked").css({
                     borderLeft: "1px solid " + Bordado.data.color_malla,
                     borderBottom: "1px solid " + Bordado.data.color_malla
                 }), $(".caneva").css({
