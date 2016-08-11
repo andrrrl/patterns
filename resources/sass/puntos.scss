@@ -6,7 +6,7 @@
  * 
  */
 
-@import "flask-material";
+//@import "flask-material";
 
 @mixin cruz($w, $h, $left, $top, $deg: 0, $color: transparent) {
 		
@@ -82,7 +82,13 @@
 	@include linea(2px, 100%, null, null, null, null, relative);
 	margin: auto;
 }
-
 .circulo {
 	@include circulo(100, 100, 50);
 }
+.rasti_hor, .rasti_vert {
+	width: 100%;
+	height: 100%;
+	border: 1px solid rgba(100,100,100,0.25);
+	position: relative;
+}
+

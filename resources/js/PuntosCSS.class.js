@@ -64,7 +64,29 @@ PuntoCSS.prototype = {
 				height: this.css.ancho_hilo, 
 				borderRadius: '50%' 
 			} 
-		);
+		),
+		css_rasti = {
+			background: this.css.color_hilo, 
+			zIndex: 1
+		},
+		css_rasti_hor = {
+			background: this.css.color_hilo, 
+			height: '50%',
+			top: '-75%',
+			left: '-25%',
+			width: '150%',
+			background: this.css.color_hilo,
+			borderRadius: '2px'
+		},
+		css_rasti_vert = {
+			background: this.css.color_hilo, 
+			width: '50%',
+			left: '25%',
+			top: '-125%',
+			height: '150%',
+			background: this.css.color_hilo,
+			borderRadius: '2px'
+		};
 
 		this.puntos = {
 			linea_arriba:
@@ -126,6 +148,26 @@ PuntoCSS.prototype = {
 				$(this.css.start_tag + this.css.end_tag)
 					.addClass(this.css.tipo_punto)
 					.css( css_circulo ),
+					
+			rasti_hor: 
+				$(this.css.start_tag + this.css.end_tag)
+					.addClass(this.css.tipo_punto)
+					.css( css_rasti )
+					.add( 
+						$(this.css.start_tag + this.css.end_tag)
+							.addClass(this.css.tipo_punto)
+							.css( css_rasti_hor )
+					),
+					
+			rasti_vert: 
+				$(this.css.start_tag + this.css.end_tag)
+					.addClass(this.css.tipo_punto)
+					.css( css_rasti )
+					.add( 
+						$(this.css.start_tag + this.css.end_tag)
+							.addClass(this.css.tipo_punto)
+							.css( css_rasti_vert )
+					),
 			
 			// TODO: complex css stitch		
 			// frasco: 

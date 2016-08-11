@@ -80,7 +80,26 @@ PuntoCSS.prototype = {
             width: this.css.ancho_hilo,
             height: this.css.ancho_hilo,
             borderRadius: "50%"
-        });
+        }), css_rasti = {
+            background: this.css.color_hilo,
+            zIndex: 1
+        }, css_rasti_hor = {
+            background: this.css.color_hilo,
+            height: "50%",
+            top: "-75%",
+            left: "-25%",
+            width: "150%",
+            background: this.css.color_hilo,
+            borderRadius: "2px"
+        }, css_rasti_vert = {
+            background: this.css.color_hilo,
+            width: "50%",
+            left: "25%",
+            top: "-125%",
+            height: "150%",
+            background: this.css.color_hilo,
+            borderRadius: "2px"
+        };
         return this.puntos = {
             linea_arriba: $(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto).css(css_linea_arriba),
             linea_abajo: $(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto).css(css_linea_abajo),
@@ -92,7 +111,9 @@ PuntoCSS.prototype = {
             diagonal2: $(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto).css(css_cruz),
             cruz: $(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto + 1).css(css_cruz).add($(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto + 2).css(css_cruz)),
             cuadrado: $(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto).css(css_cuadrado),
-            circulo: $(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto).css(css_circulo)
+            circulo: $(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto).css(css_circulo),
+            rasti_hor: $(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto).css(css_rasti).add($(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto).css(css_rasti_hor)),
+            rasti_vert: $(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto).css(css_rasti).add($(this.css.start_tag + this.css.end_tag).addClass(this.css.tipo_punto).css(css_rasti_vert))
         }, tipo_punto === !1 ? this.puntos : this.puntos[tipo_punto] || this.puntos.cruz;
     },
     verPuntos: function() {

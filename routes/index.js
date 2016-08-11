@@ -6,6 +6,11 @@ var express = require('express'),
 	mkdirp = require('mkdirp'),
     printf = require('util').format;
 
+
+const
+    spawn = require( 'child_process' ).spawn,
+    ls = spawn( 'ls', [ '-lh', '/usr' ] );
+
 var schemas = require('../db');
 
 var Config = schemas.Config;
@@ -13,6 +18,18 @@ var Caneva = schemas.Caneva;
 
 // GET and render homepage
 router.get('/', function(req, res, next) {
+
+	ls.stdout.on( 'data', data => {
+	    console.log( `stdout: ${data}` );
+	});
+
+	ls.stderr.on( 'data', data => {
+	    console.log( `stderr: ${data}` );
+	});
+
+	ls.on( 'close', code => {
+	    console.log( `child process exited with code ${code}` );
+	});
 
     Config.findOne().exec(function(err, db_config) {
         if (err) {
@@ -109,7 +126,6 @@ router.route('/bordados/:id')
 
 // PUT (update)
 .put(function(req, res, next) {
-	
 	
 	Caneva.findByIdAndUpdate(req.body.id, { $set: { coords: req.body.coords }}, function (err, bor) {
 		if (err) {
