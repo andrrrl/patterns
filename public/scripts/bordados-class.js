@@ -404,6 +404,7 @@ PuntoCSS.prototype = {
                     var rel = Bordado.data.coords[p].coord.x + "," + Bordado.data.coords[p].coord.y;
                     $('.celda[rel="' + rel + '"]').html(Bordado.puntos.generarPunto(Bordado.data.coords[p].punto));
                 }
+                $(".caneva").after('<button class="btn-xs add-row"><i class="glyphicon glyphicon-plus"></i> </button>'), 
                 Bordado.eventos(), console.info("[INFO] Eventos registrados.");
             },
             onhide: function(dialogRef) {
@@ -431,7 +432,14 @@ PuntoCSS.prototype = {
                     if (1 == e.which) {
                         $(".celda").removeClass("clicked"), Bordado.puntos.colorHilo($color_hilo.val()), 
                         Bordado.puntos.anchoHilo($ancho_hilo.val());
-                        var punto_css = Bordado.puntos.generarPunto($("#punto-actual").text() || Bordado.data.punto_base);
+                        var rel = $(this).attr("rel"), punto_actual = $("#punto-actual").text() || Bordado.data.punto_base;
+                        if (" " === $(this).html() && punto_actual.match(/rasti_/)) {
+                            punto_actual = "rasti_hor" == punto_actual ? "rasti_vert" : "rasti_hor", Bordado.data.punto_base = punto_actual;
+                            var muestra_punto = Bordado.puntos.generarPunto(punto_actual);
+                            $("#punto-actual-texto").html(punto_actual), $("#punto-actual").data("punto-actual", punto_actual), 
+                            $("#punto-actual").html(muestra_punto);
+                        }
+                        var punto_css = Bordado.puntos.generarPunto(punto_actual);
                         if ($(this).html(punto_css).addClass("clicked"), rel) {
                             var xy = rel.split(",");
                             Bordado.agregar({
@@ -439,7 +447,7 @@ PuntoCSS.prototype = {
                                     x: xy[0],
                                     y: xy[1]
                                 },
-                                punto: $("#punto-actual").text() || Bordado.data.punto_base,
+                                punto: punto_actual,
                                 color_hilo: $color_hilo.val(),
                                 ancho_hilo: $ancho_hilo.val()
                             });
@@ -469,17 +477,22 @@ PuntoCSS.prototype = {
                 }
                 $(".celda").removeClass("clicked"), Bordado.puntos.colorHilo($color_hilo.val()), 
                 Bordado.puntos.anchoHilo($ancho_hilo.val());
-                var punto_css = Bordado.puntos.generarPunto($("#punto-actual").text() || Bordado.data.punto_base);
-                console.log(punto_css);
-                var rel = $(this).attr("rel");
-                $(this).html(punto_css).addClass("clicked");
+                var rel = $(this).attr("rel"), punto_actual = $("#punto-actual").text() || Bordado.data.punto_base;
+                if (punto_actual.match(/rasti_/)) {
+                    punto_actual = "rasti_hor" == punto_actual ? "rasti_vert" : "rasti_hor", Bordado.data.punto_base = punto_actual;
+                    var muestra_punto = Bordado.puntos.generarPunto(punto_actual);
+                    $("#punto-actual-texto").html(punto_actual), $("#punto-actual").data("punto-actual", punto_actual), 
+                    $("#punto-actual").html(muestra_punto);
+                }
+                var punto_css = Bordado.puntos.generarPunto(punto_actual);
+                console.log(punto_css), $(this).html(punto_css).addClass("clicked");
                 var xy = rel.split(",");
                 Bordado.agregar({
                     coord: {
                         x: xy[0],
                         y: xy[1]
                     },
-                    punto: $("#punto-actual").text() || Bordado.data.punto_base,
+                    punto: punto_actual,
                     color_hilo: $color_hilo.val(),
                     ancho_hilo: $ancho_hilo.val()
                 });
@@ -533,7 +546,7 @@ PuntoCSS.prototype = {
                 e.preventDefault(), Bordado.data.punto_base = $(this).data("punto");
                 var muestra_punto = Bordado.puntos.generarPunto(Bordado.data.punto_base);
                 $("#punto-actual-texto").html($(this).text()), $("#punto-actual").data("punto-actual", $(this).data("punto")), 
-                $("#punto-actual").html(muestra_punto), console.log($("#punto-actual"));
+                $("#punto-actual").html(muestra_punto);
             }), $("[name=cambiar_ancho_hilo]").on("change", function(e) {
                 e.preventDefault(), Bordado.data.ancho_hilo = $(this).val(), console.log("ancho_hilo (grosor): " + $(this).val());
             }), $("[name=cambiar_ancho_punto]").on("change", function(e) {
@@ -568,6 +581,8 @@ PuntoCSS.prototype = {
                 });
             }), $('button[name="save-frame"]').on("click", function(e) {
                 e.preventDefault(), Bordado.render(Bordado.data.bordado + "-frame-" + Math.random(0, 1e3));
+            }), $(".add-row").unbind("click").bind("click", function() {
+                Bordado.addRow();
             });
         }
     },
@@ -690,7 +705,7 @@ PuntoCSS.prototype = {
         var Bordado = this, bordado_html = $(".caneva");
         html2canvas(bordado_html, {
             onrendered: function(canvas) {
-                document.body.appendChild(canvas), Bordado.png(canvas, img_name);
+                Bordado.png(canvas, img_name);
             }
         });
     },
@@ -707,11 +722,28 @@ PuntoCSS.prototype = {
                 id: img.id
             },
             success: function(res) {
-                "ok" == res.message && (console.info("PNG " + img.name + " guardado"), $(".save-frame-message").html("<small>Frame guardado!</small>"));
+                "ok" == res.message && (console.info("PNG " + img.name + " guardado"), $(".save-frame-message").html("<small>Frame guardado!</small>"), 
+                BootstrapDialog.alert({
+                    title: "Generar Frame PNG",
+                    message: "Frame guardado!"
+                }));
             },
             error: function(err) {
                 console.log(err);
             }
         });
+    },
+    addRow: function() {
+        var columnas = (parseInt(this.data.filas), parseInt(this.data.columnas)), ancho = parseInt(this.data.ancho_punto);
+        celda = "", h = parseInt($(".celda:last-child").attr("rel").split(",")[1]) + 1, 
+        this.height = this.height + ancho, this.data.filas++, console.log(this.height);
+        for (var x = 0; columnas >= x; x++) celda = '<div data-toogle="tooltip" data-title="' + x + "," + h + '" class="celda' + (0 == x ? "primera-linea" : "") + '" style="width: ' + ancho + "px; height: " + ancho + 'px;"' + (this.debug_coords ? ' style="font-size:9px;line-height:20px;""' : "") + ' rel="' + x + "," + h + '">' + (this.debug_coords ? x + "," + h : " ") + "</div>", 
+        $("." + this.contenedor).css({
+            height: this.height + "px"
+        }).append(celda);
+        $(".celda").css({
+            borderLeft: "1px solid " + this.data.color_malla,
+            borderBottom: "1px solid " + this.data.color_malla
+        }), this.eventos();
     }
 };

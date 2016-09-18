@@ -169,7 +169,7 @@ PuntoCSS.prototype = {
 							.css( css_rasti_vert )
 					),
 			
-			// TODO: complex css stitch		
+			// TODO: complex CSS stitch		
 			// frasco: 
 			// 	$('<div class="flask-material row">'+
 			// 		'<div class="material-container">'+

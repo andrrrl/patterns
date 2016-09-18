@@ -673,6 +673,10 @@ Bordado.prototype = {
 
 				}
 
+                $('.caneva').after(
+                    '<button class="btn-xs add-row"><i class="glyphicon glyphicon-plus"></i> </button>'
+                );
+
 				// Registrar eventos
 				Bordado.eventos();
 				console.info('[INFO] Eventos registrados.');
@@ -741,9 +745,28 @@ Bordado.prototype = {
 							// Ancho...
 							Bordado.puntos.anchoHilo( $ancho_hilo.val() );
 
+							// Coordenada
+							var rel = $(this).attr('rel');
+							
+							// Punto actual
+							var punto_actual = $('#punto-actual').text() || Bordado.data.punto_base;
+							
+							if ( $(this).html() === ' ' && punto_actual.match(/rasti_/) ) {
+								if ( punto_actual == 'rasti_hor' ){
+									punto_actual = 'rasti_vert';
+								} else {
+									punto_actual = 'rasti_hor';
+								}
+								Bordado.data.punto_base = punto_actual;
+								var muestra_punto = Bordado.puntos.generarPunto( punto_actual );
+								$('#punto-actual-texto').html(punto_actual);
+								$('#punto-actual').data('punto-actual', punto_actual);
+								$('#punto-actual').html(muestra_punto);
+							}
+
 							// Tipo de Punto (css)...
 							var punto_css = Bordado.puntos.generarPunto(
-								$('#punto-actual').text() || Bordado.data.punto_base
+								punto_actual
 							);
 
 							// (1) Agregar nuevo punto SVG a la Grilla
@@ -757,7 +780,7 @@ Bordado.prototype = {
 										x: xy[0],
 										y: xy[1]
 									},
-									punto: $('#punto-actual').text() || Bordado.data.punto_base,
+									punto: punto_actual,
 									color_hilo: $color_hilo.val(),
 									ancho_hilo: $ancho_hilo.val()
 								});
@@ -844,15 +867,32 @@ Bordado.prototype = {
 					// Ancho...
 					Bordado.puntos.anchoHilo( $ancho_hilo.val() );
 					
+					// Coordenada
+					var rel = $(this).attr('rel');
+					
+					// Punto actual
+					var punto_actual = $('#punto-actual').text() || Bordado.data.punto_base;
+					
+					if ( punto_actual.match(/rasti_/) ) {
+						
+						if ( punto_actual == 'rasti_hor' ){
+							punto_actual = 'rasti_vert';
+						} else {
+							punto_actual = 'rasti_hor';
+						}
+						Bordado.data.punto_base = punto_actual;
+						var muestra_punto = Bordado.puntos.generarPunto( punto_actual );
+						$('#punto-actual-texto').html(punto_actual);
+						$('#punto-actual').data('punto-actual', punto_actual);
+						$('#punto-actual').html(muestra_punto);
+					}
+					
 					// Tipo de Punto (css)...
 					var punto_css = Bordado.puntos.generarPunto(
-						$('#punto-actual').text() || Bordado.data.punto_base
+						punto_actual
 					);
 					// console.log($('#punto-actual').text() || Bordado.data.punto_base);
 					console.log(punto_css);
-
-					// Coordenada
-					var rel = $(this).attr('rel');
 
 					// (1) Agregar nuevo punto SVG a la Grilla
 					$(this).html(punto_css).addClass('clicked');
@@ -864,7 +904,7 @@ Bordado.prototype = {
 							x: xy[0],
 							y: xy[1]
 						},
-						punto: $('#punto-actual').text() || Bordado.data.punto_base,
+						punto: punto_actual,
 						color_hilo: $color_hilo.val(),
 						ancho_hilo: $ancho_hilo.val()
 					});
@@ -961,7 +1001,6 @@ Bordado.prototype = {
 				$('#punto-actual-texto').html($(this).text());
 				$('#punto-actual').data('punto-actual', $(this).data('punto'));
 				$('#punto-actual').html(muestra_punto);
-				console.log($('#punto-actual'));
 			});
 
 			// Grosor de Hilo:
@@ -1064,6 +1103,10 @@ Bordado.prototype = {
 				e.preventDefault();
 				Bordado.render(Bordado.data.bordado + '-frame-' + Math.random(0,1000));
 			});
+            
+            $('.add-row').unbind('click').bind('click', function() {
+                Bordado.addRow();
+            });
 			
 		} // fin de this.registrados
 	}, // fin de eventos
@@ -1297,7 +1340,7 @@ Bordado.prototype = {
 			
 			onrendered: function(canvas) {
 				// Generar PNG y guardarlo
-				document.body.appendChild(canvas);
+				//document.body.appendChild(canvas);
 				Bordado.png(canvas, img_name);
 			},
 			
@@ -1334,6 +1377,10 @@ Bordado.prototype = {
 					$('.save-frame-message').html(
 						'<small>Frame guardado!</small>'
 					);
+                    BootstrapDialog.alert({
+                        title: 'Generar Frame PNG',
+                        message: 'Frame guardado!'
+                    });
 				}
 			},
 			error: function(err) {
@@ -1341,5 +1388,44 @@ Bordado.prototype = {
 			}
 		});
 		
-	}
+	},
+    
+    addRow: function() {
+        
+        var filas 		= parseInt(this.data.filas),
+			columnas 	= parseInt(this.data.columnas),
+			ancho 		= parseInt(this.data.ancho_punto)
+            celda       = '',
+            // new row number (last row + 1)
+            h = parseInt($('.celda:last-child').attr('rel').split(",")[1]) + 1;
+            
+        this.height = this.height + ancho;
+        this.data.filas++;
+        
+        console.log(this.height);
+            
+        for ( var x = 0; x <= columnas; x++ ){
+            
+            celda = '<div data-toogle="tooltip" data-title="' + x + ',' + h + 
+                '" class="celda' + ( x == 0 ? 'primera-linea' : '' ) + 
+                '" style="width: ' + ancho + 'px; height: ' + ancho + 'px;"' +
+                (!this.debug_coords ? '' : ' style="font-size:9px;line-height:20px;""') +
+                ' rel="' + x + ',' + h + '">' +
+                (!this.debug_coords ? ' ' : x + ',' + h) +
+                '</div>';
+            
+            
+            
+            $('.' + this.contenedor).css({ height: this.height + 'px' }).append( celda );
+        }
+        $('.celda').css({
+            borderLeft: '1px solid ' + this.data.color_malla,
+            borderBottom: '1px solid ' + this.data.color_malla
+        });
+        
+        // Registrar eventos
+        this.eventos();
+        
+    }
+    
 };
