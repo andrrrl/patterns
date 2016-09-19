@@ -13,7 +13,7 @@
 
 - Install dependencies:
 `npm install`  
-It will also run a install script, located at `./utils/install.js` which will generate a `.env` file using `env.example` as a blueprint. If `.env` file already exists, the install script **will not** overwrite it.
+It will also run an install script, located at `./utils/install.js` which will generate a `.env` file using `env.example` as a blueprint. If `.env` file already exists, the install script **will not** overwrite it.
 
 - Install optional dependencies:
 Debian/Ubuntu: `apt-get install imagemagick`  
