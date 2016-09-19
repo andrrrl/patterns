@@ -7,10 +7,6 @@ var express = require('express'),
     printf = require('util').format;
 
 
-const
-    spawn = require( 'child_process' ).spawn,
-    ls = spawn( 'ls', [ '-lh', '/usr' ] );
-
 var schemas = require('../db');
 
 var Config = schemas.Config;
@@ -19,17 +15,17 @@ var Caneva = schemas.Caneva;
 // GET and render homepage
 router.get('/', function(req, res, next) {
 
-	ls.stdout.on( 'data', data => {
-	    console.log( `stdout: ${data}` );
-	});
-
-	ls.stderr.on( 'data', data => {
-	    console.log( `stderr: ${data}` );
-	});
-
-	ls.on( 'close', code => {
-	    console.log( `child process exited with code ${code}` );
-	});
+	// ls.stdout.on( 'data', data => {
+	//     console.log( `stdout: ${data}` );
+	// });
+    // 
+	// ls.stderr.on( 'data', data => {
+	//     console.log( `stderr: ${data}` );
+	// });
+    // 
+	// ls.on( 'close', code => {
+	//     console.log( `child process exited with code ${code}` );
+	// });
 
     Config.findOne().exec(function(err, db_config) {
         if (err) {
@@ -102,7 +98,6 @@ router.param('id', function(req, res, next, id) {
 
     next();
 });
-
 
 // GET (load)
 router.route('/bordados/:id')
@@ -179,8 +174,8 @@ router.route('/bordados/renders/save')
 		
 		mkdirp('./public/renders/' + name.slice(0, name.indexOf('-')), function(err){
 			var filename = 'public/renders/' + name.slice(0, name.indexOf('-')) + '/' + name + '.png';
-			fs.stat(filename, function(err, stats) {
 			
+            fs.stat(filename, function(err, stats) {
                 if ( typeof stats == 'undefined' ) {
 					fs.writeFile(filename, image, function(err) {
 					    if (err) {
@@ -191,17 +186,38 @@ router.route('/bordados/renders/save')
 							res.json({ message: 'ok' });
 							res.end();
 						}
-
 					});
 				} else {
-					return;
 					res.json({ message: 'ok' });
 					res.end();
 				}
 			});
 			
 		});
-		return;
 	});
+
+router.route('/bordados/renders/animation')
+    .post(function(req, res){
+        
+		var name  = req.body.bordado || name;
+        
+        const
+            exec = require( 'child_process' ).exec;
+            exec( 'bash ./resources/bash/make_animation.sh ./public/renders/' + name + '/', function(err, stdout, stderr) {
+                
+                if (err) {
+                    console.error(err);
+                    res.json(err);
+                    res.end();
+                }
+                
+                if ( stderr ) {
+                    res.json({stderr: stderr});
+                } else {
+                    res.json({stdout: stdout});
+                }
+                res.end();
+            }); 
+    });
 
 module.exports = router;

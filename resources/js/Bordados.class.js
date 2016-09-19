@@ -78,7 +78,6 @@ Bordado.prototype = {
 
 	constructor: Bordado,
 
-	// Cargar desde Base de Datos (SQLite|MySQL) ==> ver php/bordado.php
 	// Cargar desde MongoDB ==> ver db.js, routes/index.js
 	cargar: function(bordado_id, opciones) {
 
@@ -633,8 +632,8 @@ Bordado.prototype = {
 
 					//Bordado.shuffle();
 					var i = 0,
-						n = '';
-					$interval2 = setInterval(function() {
+						n = '',
+					    interval2 = setInterval(function() {
 						Bordado.puntos.colorHilo(Bordado.data.coords[i].color_hilo);
 						Bordado.puntos.anchoHilo(Bordado.data.coords[i].ancho_hilo);
 
@@ -649,12 +648,30 @@ Bordado.prototype = {
 							} else if ( i < 1000 ) {
 								n = '-0' + i;
 							}
-							Bordado.render(Bordado.data.bordado + n);
+							Bordado.render(Bordado.data.bordado + n, false);
 						}
 						i++;
 						
 						if ( i == Bordado.data.coords.length ) {
-							clearInterval($interval2);
+							clearInterval(interval2);
+                            
+                            setTimeout(function(){
+                                $.ajax({
+                                    url: '/bordados/renders/animation',
+                                    method: 'post',
+                                    data: {bordado: Bordado.data.bordado },
+                                    dataType: 'json',
+                                    success: function(result) {
+                                        console.log('OK');
+                                        console.log(result);
+                                    },
+                                    error: function(error) {
+                                        console.log('Error');
+                                        console.log(error);
+                                    }
+                                });
+                            }, 5000); // Wait 5 seconds so last image is saved (improve this please!!!)
+                            
 						}
 
 					}, Bordado.animar.speed);
@@ -1327,7 +1344,7 @@ Bordado.prototype = {
 	},
 
 	// Generar png
-	render: function(img_name) {
+	render: function(img_name, show_alert) {
 		var Bordado = this;
 		var bordado_html = $('.caneva');
 		
@@ -1341,16 +1358,18 @@ Bordado.prototype = {
 			onrendered: function(canvas) {
 				// Generar PNG y guardarlo
 				//document.body.appendChild(canvas);
-				Bordado.png(canvas, img_name);
+				Bordado.png(canvas, img_name, show_alert);
 			},
 			
 		});
 	},
 	
 	// Guardar PNG
-	png: function(canvas, img_name) {
+	png: function(canvas, img_name, show_alert) {
 		
 		var Bordado = this;
+        
+        show_alert = show_alert || false;
 		
 		var img = {};
 		// Convert canvas to base64 PNG string 
@@ -1377,10 +1396,12 @@ Bordado.prototype = {
 					$('.save-frame-message').html(
 						'<small>Frame guardado!</small>'
 					);
-                    BootstrapDialog.alert({
-                        title: 'Generar Frame PNG',
-                        message: 'Frame guardado!'
-                    });
+                    if ( show_alert ) {
+                        BootstrapDialog.alert({
+                            title: 'Generar Frame PNG',
+                            message: 'Frame guardado!'
+                        });
+                    }
 				}
 			},
 			error: function(err) {
@@ -1413,8 +1434,6 @@ Bordado.prototype = {
                 ' rel="' + x + ',' + h + '">' +
                 (!this.debug_coords ? ' ' : x + ',' + h) +
                 '</div>';
-            
-            
             
             $('.' + this.contenedor).css({ height: this.height + 'px' }).append( celda );
         }

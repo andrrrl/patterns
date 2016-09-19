@@ -5,7 +5,8 @@
   "private": true,
   "main": "start.js",
   "scripts": {
-    "start": "node start.js"
+    "start": "nodemon start.js",
+    "install": "node ./utils/install.js"
   },
   "author": "Andrrr <andresin@gmail.com>",
   "license": "MIT",
@@ -30,7 +31,8 @@
     "morgan": "^1.7.0",
     "multer": "^1.1.0",
     "nodemon": "^1.9.2",
-    "serve-favicon": "^2.3.0"
+    "serve-favicon": "^2.3.0",
+    "shelljs": "^0.7.4"
   },
   "devDependencies": {
     "grunt": "^1.0.1",

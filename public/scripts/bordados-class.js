@@ -390,13 +390,28 @@ PuntoCSS.prototype = {
                     width: dialog_size
                 }), $bordado_html.show(), "undefined" != typeof Bordado.animar && Bordado.animar.speed > 0) {
                     $(".celda").html(""), Bordado.animar.gif && (Bordado.animar.speed = 1e3);
-                    var i = 0, n = "";
-                    $interval2 = setInterval(function() {
+                    var i = 0, n = "", interval2 = setInterval(function() {
                         Bordado.puntos.colorHilo(Bordado.data.coords[i].color_hilo), Bordado.puntos.anchoHilo(Bordado.data.coords[i].ancho_hilo);
                         var rel = Bordado.data.coords[i].coord.x + "," + Bordado.data.coords[i].coord.y;
                         $('.celda[rel="' + rel + '"]').html(Bordado.puntos.generarPunto(Bordado.data.coords[i].punto)), 
                         Bordado.animar.gif && (10 > i ? n = "-000" + i : 100 > i ? n = "-00" + i : 1e3 > i && (n = "-0" + i), 
-                        Bordado.render(Bordado.data.bordado + n)), i++, i == Bordado.data.coords.length && clearInterval($interval2);
+                        Bordado.render(Bordado.data.bordado + n, !1)), i++, i == Bordado.data.coords.length && (clearInterval(interval2), 
+                        setTimeout(function() {
+                            $.ajax({
+                                url: "/bordados/renders/animation",
+                                method: "post",
+                                data: {
+                                    bordado: Bordado.data.bordado
+                                },
+                                dataType: "json",
+                                success: function(result) {
+                                    console.log("OK"), console.log(result);
+                                },
+                                error: function(error) {
+                                    console.log("Error"), console.log(error);
+                                }
+                            });
+                        }, 5e3));
                     }, Bordado.animar.speed);
                 } else for (var p = 0; p < Bordado.data.coords.length; p++) {
                     Bordado.puntos.colorHilo(Bordado.data.coords[p].color_hilo), Bordado.puntos.anchoHilo(Bordado.data.coords[p].ancho_hilo), 
@@ -701,16 +716,18 @@ PuntoCSS.prototype = {
             console.info("Punto elminado de " + coord)), i++;
         }
     },
-    render: function(img_name) {
+    render: function(img_name, show_alert) {
         var Bordado = this, bordado_html = $(".caneva");
         html2canvas(bordado_html, {
             onrendered: function(canvas) {
-                Bordado.png(canvas, img_name);
+                Bordado.png(canvas, img_name, show_alert);
             }
         });
     },
-    png: function(canvas, img_name) {
-        var Bordado = this, img = {};
+    png: function(canvas, img_name, show_alert) {
+        var Bordado = this;
+        show_alert = show_alert || !1;
+        var img = {};
         img.data = canvas.toDataURL("image/png"), img.data = img.data.replace(/data:image\/png;base64,/, ""), 
         img.name = img_name || Bordado.data.bordado, img.id = Bordado.data.id, $.ajax({
             url: "/bordados/renders/save",
@@ -723,7 +740,7 @@ PuntoCSS.prototype = {
             },
             success: function(res) {
                 "ok" == res.message && (console.info("PNG " + img.name + " guardado"), $(".save-frame-message").html("<small>Frame guardado!</small>"), 
-                BootstrapDialog.alert({
+                show_alert && BootstrapDialog.alert({
                     title: "Generar Frame PNG",
                     message: "Frame guardado!"
                 }));
