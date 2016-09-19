@@ -39,5 +39,5 @@ This tool will allow generating GIF animation out of a project
 It will watch for file changes and compress JS and SASS
 
 ## TODOs ##
-[X] Add option to add rows  
-[ ] Add option to add columns
+* [x] Add option to add rows  
+* [ ] Add option to add columns
