@@ -1,9 +1,15 @@
 #!/bin/env node
 
+'use strict';
+
 /**
  * Module dependencies.
  */
-//var db  = require('../db');
+
+require('dotenv').config({
+	path: '.env'
+});
+
 var app = require('./app.js');
 var debug = require('debug')('portfolio:server');
 var http = require('http');

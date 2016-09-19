@@ -127,11 +127,10 @@ router.route('/bordados/:id')
 // PUT (update)
 .put(function(req, res, next) {
 	
-	Caneva.findByIdAndUpdate(req.body.id, { $set: { coords: req.body.coords }}, function (err, bor) {
+	Caneva.findByIdAndUpdate(req.body.id, { $set: { punto_base: req.body.punto_base, coords: req.body.coords }}, {new: true}, function (err, bor) {
 		if (err) {
 			res.json({result:'error'});
 			res.end();
-			// return handleError(err);
 		}	
 		
 		res.json({result: 'ok'});
@@ -170,6 +169,7 @@ var uploading = multer({
 router.route('/bordados/renders/save')
 	.post(function(req, res) {
 		
+        // Only allow saving PNG frames when on local env as Openshift has limited resources.
 		if ( typeof process.env.OPENSHIFT_NODEJS_IP != 'undefined' ) 
 			return;
 		
@@ -177,16 +177,17 @@ router.route('/bordados/renders/save')
 		var name  = req.body.bordado;
 		var image = new Buffer(req.body.image, 'base64');
 		
-		mkdirp('public/renders/' + id, function(err){
-			var filename = 'public/renders/' + id + '/' + name + '.png';
+		mkdirp('./public/renders/' + name.slice(0, name.indexOf('-')), function(err){
+			var filename = 'public/renders/' + name.slice(0, name.indexOf('-')) + '/' + name + '.png';
 			fs.stat(filename, function(err, stats) {
-				if ( typeof stats == 'undefined' ) {
+			
+                if ( typeof stats == 'undefined' ) {
 					fs.writeFile(filename, image, function(err) {
 					    if (err) {
-							res.json({ message: 'err' });
+							res.json({ message: 'error', err: err });
 							res.end();
 					    } else {
-							console.log('public/renders/' + id + '/' + name + '.png');
+							console.info('./public/renders/' + name.slice(0, name.indexOf('-')) + '/' + name + '.png');
 							res.json({ message: 'ok' });
 							res.end();
 						}
