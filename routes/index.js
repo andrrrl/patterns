@@ -1,5 +1,8 @@
-var express = require('express'),
-    router = express.Router(),
+var 
+    express = require('express'),
+    router = express.Router();
+    
+const
 	path   = require('path'),
     multer = require('multer'),
 	fs	   = require('fs'),
@@ -172,8 +175,15 @@ router.route('/bordados/renders/save')
 		var name  = req.body.bordado;
 		var image = new Buffer(req.body.image, 'base64');
 		
-		mkdirp('./public/renders/' + name.slice(0, name.indexOf('-')), function(err){
-			var filename = 'public/renders/' + name.slice(0, name.indexOf('-')) + '/' + name + '.png';
+        const
+            exec = require( 'child_process' ).exec;
+        
+        
+		//mkdirp('./public/renders/' + name.slice(0, name.indexOf('-')), function(err){
+		
+        exec( 'mkdir -p ./public/renders/' + name.slice(0, name.indexOf('-')), function(err, stdout, stderr) {
+        
+        	var filename = 'public/renders/' + name.slice(0, name.indexOf('-')) + '/' + name + '.png';
 			
             fs.stat(filename, function(err, stats) {
                 if ( typeof stats == 'undefined' ) {
