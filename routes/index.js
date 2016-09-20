@@ -181,29 +181,29 @@ router.route('/bordados/renders/save')
         
 		//mkdirp('./public/renders/' + name.slice(0, name.indexOf('-')), function(err){
 		
-        exec( 'mkdir -p ./public/renders/' + name.slice(0, name.indexOf('-')), function(err, stdout, stderr) {
-        
-        	var filename = 'public/renders/' + name.slice(0, name.indexOf('-')) + '/' + name + '.png';
-			
-            fs.stat(filename, function(err, stats) {
-                if ( typeof stats == 'undefined' ) {
-					fs.writeFile(filename, image, function(err) {
-					    if (err) {
-							res.json({ message: 'error', err: err });
-							res.end();
-					    } else {
-							console.info('./public/renders/' + name.slice(0, name.indexOf('-')) + '/' + name + '.png');
-							res.json({ message: 'ok' });
-							res.end();
-						}
-					});
-				} else {
-					res.json({ message: 'ok' });
-					res.end();
-				}
-			});
-			
-		});
+        // exec( 'mkdir -p ./public/renders/' + name.slice(0, name.indexOf('-')), function(err, stdout, stderr) {
+        // 
+        // 	var filename = 'public/renders/' + name.slice(0, name.indexOf('-')) + '/' + name + '.png';
+		// 	
+        //     fs.stat(filename, function(err, stats) {
+        //         if ( typeof stats == 'undefined' ) {
+		// 			fs.writeFile(filename, image, function(err) {
+		// 			    if (err) {
+		// 					res.json({ message: 'error', err: err });
+		// 					res.end();
+		// 			    } else {
+		// 					console.info('./public/renders/' + name.slice(0, name.indexOf('-')) + '/' + name + '.png');
+		// 					res.json({ message: 'ok' });
+		// 					res.end();
+		// 				}
+		// 			});
+		// 		} else {
+		// 			res.json({ message: 'ok' });
+		// 			res.end();
+		// 		}
+		// 	});
+		// 	
+		// });
 	});
 
 router.route('/bordados/renders/animation')
