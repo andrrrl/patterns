@@ -5,7 +5,7 @@
   "private": true,
   "main": "start.js",
   "scripts": {
-    "start": "nodemon start.js",
+    "start": "node start.js",
     "install": "node ./utils/install.js"
   },
   "author": "Andrrr <andresin@gmail.com>",
