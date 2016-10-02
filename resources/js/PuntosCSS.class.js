@@ -36,6 +36,43 @@ PuntoCSS.prototype = {
 			background: this.css.color_hilo,
 			border: '1px solid rgba(100,100,100,0.25)'
 		},
+		
+		css_linea_intersec_arriba = $.extend(
+			{},
+			css_linea,
+			{ 
+				height: this.css.ancho_hilo, 
+				top: '-' + (this.css.ancho_hilo / 2 + 0.5) + 'px' 
+			}
+		),
+		
+		css_linea_intersec_abajo = $.extend(
+			{},
+			css_linea,
+			{ 
+				height: this.css.ancho_hilo, 
+				bottom: '-' + (this.css.ancho_hilo / 2) + 'px' 
+			}
+		),
+		
+		css_linea_intersec_izquierda = $.extend(
+			{},
+			css_linea,
+			{ 
+				width: this.css.ancho_hilo, 
+				left: '-' + (this.css.ancho_hilo / 2) + 'px' 
+			}
+		),
+		
+		css_linea_intersec_derecha = $.extend(
+			{},
+			css_linea,
+			{ 
+				width: this.css.ancho_hilo, 
+				right: '-' + (this.css.ancho_hilo / 2 + 0.5) + 'px' 
+			}
+		),
+		
 		css_linea_arriba = css_linea_abajo = $.extend( 
 			{},
 			css_linea, 
@@ -89,6 +126,22 @@ PuntoCSS.prototype = {
 		};
 
 		this.puntos = {
+			linea_intersec_arriba:
+				$(this.css.start_tag + this.css.end_tag)
+					.addClass(this.css.tipo_punto)
+					.css( css_linea_intersec_arriba ),
+			linea_intersec_abajo:
+				$(this.css.start_tag + this.css.end_tag)
+					.addClass(this.css.tipo_punto)
+					.css( css_linea_intersec_abajo ),
+			linea_intersec_derecha:
+				$(this.css.start_tag + this.css.end_tag)
+					.addClass(this.css.tipo_punto)
+					.css( css_linea_intersec_derecha ),
+			linea_intersec_izquierda:
+				$(this.css.start_tag + this.css.end_tag)
+					.addClass(this.css.tipo_punto)
+					.css( css_linea_intersec_izquierda ),
 			linea_arriba:
 				$(this.css.start_tag + this.css.end_tag)
 					.addClass(this.css.tipo_punto)

@@ -62,6 +62,22 @@
 	@include cruz(5px, 155%, -50%, -50%, 135);	
 }
 
+.linea_intersec_arriba {
+	@include linea(100%, 2px, 0, null, -2px, null, absolute);
+}
+
+.linea_intersec_abajo {
+	@include linea(100%, 2px, null, null, -2px, null, absolute);
+}
+
+.linea_intersec_izquierda {
+	@include linea(2px, 100%, null, null, null, null, absolute);
+}
+
+.linea_intersec_derecha {
+	@include linea(2px, 100%, null, null, null, null, absolute);
+}
+
 .linea_arriba {
 	@include linea(110%, 2px, 0);
 }

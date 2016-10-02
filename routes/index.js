@@ -176,34 +176,34 @@ router.route('/bordados/renders/save')
 		var image = new Buffer(req.body.image, 'base64');
 		
         const
-            exec = require( 'child_process' ).exec;
+            execSync = require( 'child_process' ).execSync;
         
         
 		//mkdirp('./public/renders/' + name.slice(0, name.indexOf('-')), function(err){
 		
-        // exec( 'mkdir -p ./public/renders/' + name.slice(0, name.indexOf('-')), function(err, stdout, stderr) {
-        // 
-        // 	var filename = 'public/renders/' + name.slice(0, name.indexOf('-')) + '/' + name + '.png';
-		// 	
-        //     fs.stat(filename, function(err, stats) {
-        //         if ( typeof stats == 'undefined' ) {
-		// 			fs.writeFile(filename, image, function(err) {
-		// 			    if (err) {
-		// 					res.json({ message: 'error', err: err });
-		// 					res.end();
-		// 			    } else {
-		// 					console.info('./public/renders/' + name.slice(0, name.indexOf('-')) + '/' + name + '.png');
-		// 					res.json({ message: 'ok' });
-		// 					res.end();
-		// 				}
-		// 			});
-		// 		} else {
-		// 			res.json({ message: 'ok' });
-		// 			res.end();
-		// 		}
-		// 	});
-		// 	
-		// });
+        execSync( 'mkdir -p ./public/renders/' + name.slice(0, name.indexOf('-')), function(err, stdout, stderr) {
+        
+        	var filename = 'public/renders/' + name.slice(0, name.indexOf('-')) + '/' + name + '.png';
+			
+            fs.stat(filename, function(err, stats) {
+                if ( typeof stats == 'undefined' ) {
+					fs.writeFile(filename, image, function(err) {
+					    if (err) {
+							res.json({ message: 'error', err: err });
+							res.end();
+					    } else {
+							console.info('./public/renders/' + name.slice(0, name.indexOf('-')) + '/' + name + '.png');
+							res.json({ message: 'ok' });
+							res.end();
+						}
+					});
+				} else {
+					res.json({ message: 'ok' });
+					res.end();
+				}
+			});
+			
+		});
 	});
 
 router.route('/bordados/renders/animation')
@@ -212,8 +212,8 @@ router.route('/bordados/renders/animation')
 		var name  = req.body.bordado || name;
         
         const
-            exec = require( 'child_process' ).exec;
-            exec( 'bash ./resources/bash/make_animation.sh ./public/renders/' + name + '/', function(err, stdout, stderr) {
+            execSync = require( 'child_process' ).execSync;
+            execSync( 'bash ./resources/bash/make_animation.sh ./public/renders/' + name + '/', function(err, stdout, stderr) {
                 
                 if (err) {
                     console.error(err);
