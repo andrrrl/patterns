@@ -8,7 +8,7 @@ var mongo_db = process.env.MONGO_DB || process.env.OPENSHIFT_APP_NAME;
 
 if (mongo_user == process.env.MONGO_USER) {
     // var MongoDB = mongoose.connect('mongodb://localhost/velours').connection;
-    var MongoDB = mongoose.connect(process.env.MONGO_HOST + mongo_db).connection;
+    var MongoDB = mongoose.connect(process.env.MONGO_HOST + '/' + mongo_db).connection;
 } else {
     var MongoDB = mongoose.connect(process.env.OPENSHIFT_MONGODB_DB_URL + mongo_db).connection;
 }
