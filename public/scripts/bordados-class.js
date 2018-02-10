@@ -653,9 +653,9 @@ PuntoCSS.prototype = {
                                     x: coord[0],
                                     y: parseInt(coord[1]) - 1
                                 },
-                                punto: $("#punto-actual").text() || Bordado.data.punto_base || Bordado.data.punto_actual || 'cruz',
-                                color_hilo: $("[name=cambiar_color_hilo]").val() || Bordado.data.color_hilo,
-                                ancho_hilo: $("[name=cambiar_ancho_hilo]").val() || Bordado.data.ancho_hilo
+                                punto: $("#punto-actual").text() || this.data.punto_base || this.data.punto_actual || 'cruz',
+                                color_hilo: $("[name=cambiar_color_hilo]").val() || this.data.color_hilo,
+                                ancho_hilo: $("[name=cambiar_ancho_hilo]").val() || this.data.ancho_hilo
                             }), console.log("Punto pintado de " + coord[0] + "," + coord[1] + " a " + coord_up)) : ($('.celda[rel="' + coord[0] + "," + coord[1] + '"]').html(""),
                                 this.quitar(coord[0], coord[1]), console.log("Punto movido de " + coord[0] + "," + coord[1] + " a " + coord_up)),
                             celda.html(punto).addClass("clicked");
@@ -670,9 +670,9 @@ PuntoCSS.prototype = {
                                     x: parseInt(coord[0]) + 1,
                                     y: coord[1]
                                 },
-                                punto: $("#punto-actual").text() || Bordado.data.punto_base || Bordado.data.punto_actual || 'cruz',
-                                color_hilo: $("[name=cambiar_color_hilo]").val() || Bordado.data.color_hilo,
-                                ancho_hilo: $("[name=cambiar_ancho_hilo]").val() || Bordado.data.ancho_hilo
+                                punto: $("#punto-actual").text() || this.data.punto_base || this.data.punto_actual || 'cruz',
+                                color_hilo: $("[name=cambiar_color_hilo]").val() || this.data.color_hilo,
+                                ancho_hilo: $("[name=cambiar_ancho_hilo]").val() || this.data.ancho_hilo
                             }), console.log("Punto movido de " + coord[1] + "," + coord[0] + " a " + coord_right)) : ($('.celda[rel="' + coord[0] + "," + coord[1] + '"]').html(""),
                                 this.quitar(coord[0], coord[1]), console.log("Punto pintado de " + coord[1] + "," + coord[0] + " a " + coord_right)),
                             celda.html(punto).addClass("clicked");
@@ -687,9 +687,9 @@ PuntoCSS.prototype = {
                                     x: coord[0],
                                     y: parseInt(coord[1]) + 1
                                 },
-                                punto: $("#punto-actual").text() || Bordado.data.punto_base || Bordado.data.punto_actual || 'cruz',
-                                color_hilo: $("[name=cambiar_color_hilo]").val() || Bordado.data.color_hilo,
-                                ancho_hilo: $("[name=cambiar_ancho_hilo]").val() || Bordado.data.ancho_hilo
+                                punto: $("#punto-actual").text() || this.data.punto_base || this.data.punto_actual || 'cruz',
+                                color_hilo: $("[name=cambiar_color_hilo]").val() || this.data.color_hilo,
+                                ancho_hilo: $("[name=cambiar_ancho_hilo]").val() || this.data.ancho_hilo
                             }), console.log("Punto movido de " + coord[0] + "," + coord[1] + " a " + coord_down)) : ($('.celda[rel="' + coord[0] + "," + coord[1] + '"]').html(""),
                                 this.quitar(coord[0] + "," + coord[1]), console.log("Punto pintado de " + coord[0] + "," + coord[1] + " a " + coord_down)),
                             celda.html(punto).addClass("clicked");
@@ -704,9 +704,9 @@ PuntoCSS.prototype = {
                                     x: parseInt(coord[0]) - 1,
                                     y: coord[1]
                                 },
-                                punto: $("#punto-actual").text() || Bordado.data.punto_base || Bordado.data.punto_actual || 'cruz',
-                                color_hilo: $("[name=cambiar_color_hilo]").val() || Bordado.data.color_hilo,
-                                ancho_hilo: $("[name=cambiar_ancho_hilo]").val() || Bordado.data.ancho_hilo
+                                punto: $("#punto-actual").text() || this.data.punto_base || this.data.punto_actual || 'cruz',
+                                color_hilo: $("[name=cambiar_color_hilo]").val() || this.data.color_hilo,
+                                ancho_hilo: $("[name=cambiar_ancho_hilo]").val() || this.data.ancho_hilo
                             }), console.log("Punto movido de " + coord[0] + "," + coord[1] + " a " + coord_left)) : ($('.celda[rel="' + coord[0] + "," + coord[1] + '"]').html(""),
                                 this.quitar(coord[0] + "," + coord[1]), console.log("Punto pintado de " + coord[0] + "," + coord[1] + " a " + coord_left)),
                             celda.html(punto).addClass("clicked");
