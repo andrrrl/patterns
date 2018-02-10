@@ -746,9 +746,15 @@ PuntoCSS.prototype = {
             }),
             color_hilo = punto.color_hilo,
             ancho_hilo = punto.ancho_hilo,
-            tipo_punto = punto.punto; -
-        1 == coords.indexOf(punto_nuevo) ? (this.data.coords.push(punto), console.info("Punto generado en " + punto_nuevo)) : (this.data.coords[coords.indexOf(punto_nuevo)].color_hilo = color_hilo,
-            this.data.coords[coords.indexOf(punto_nuevo)].ancho_hilo = ancho_hilo, this.data.coords[coords.indexOf(punto_nuevo)].punto = tipo_punto);
+            tipo_punto = punto.punto;
+        if (coords.indexOf(punto_nuevo) === -1) {
+            this.data.coords.push(punto),
+                console.info("Punto generado en " + punto_nuevo)
+        } else {
+            this.data.coords[coords.indexOf(punto_nuevo)].color_hilo = color_hilo,
+                this.data.coords[coords.indexOf(punto_nuevo)].ancho_hilo = ancho_hilo,
+                this.data.coords[coords.indexOf(punto_nuevo)].punto = tipo_punto;
+        }
     },
     quitar: function (coord) {
         for (var i = 0;
