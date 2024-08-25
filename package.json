@@ -31,13 +31,13 @@
     "mongoose": "^5.13.22",
     "morgan": "^1.7.0",
     "multer": "^1.1.0",
-    "nodemon": "^1.9.2",
+    "nodemon": "^3.1.4",
     "serve-favicon": "^2.3.0",
     "shelljs": "^0.8.5"
   },
   "devDependencies": {
     "grunt": "^1.5.3",
-    "grunt-cli": "^1.2.0",
+    "grunt-cli": "^1.5.0",
     "grunt-contrib-compass": "^1.1.1",
     "grunt-contrib-sass": "^1.0.0",
     "grunt-contrib-uglify": "^1.0.1",
