@@ -20,13 +20,13 @@
     "virtual"
   ],
   "dependencies": {
-    "body-parser": "^1.20.1",
+    "body-parser": "^1.20.3",
     "bower": "^1.7.9",
     "colors": "^1.1.2",
     "cookie-parser": "^1.4.3",
     "dotenv": "^2.0.0",
     "ejs": "^3.1.10",
-    "express": "^4.19.2",
+    "express": "^4.21.0",
     "method-override": "^2.3.6",
     "mongoose": "^5.13.22",
     "morgan": "^1.7.0",
